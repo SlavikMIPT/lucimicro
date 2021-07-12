@@ -3,7 +3,7 @@ Install python 3.8+ version
 install mbed-cli https://os.mbed.com/docs/mbed-os/v6.8/build-tools/install-and-set-up.html
 
 ```bash
-python import_libs.py
+python import_lib.py
 ```
 ```bash
 cd ONE
