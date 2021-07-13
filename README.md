@@ -11,5 +11,10 @@ git apply ../one.patch
 cd ..
 ```
 ```bash
+cd mbed-os
+git apply ../mbed-os.patch
+cd ..
+```
+```bash
 mbed-tools compile -m NUCLEO_F746ZG -t GCC_ARM
 ```
