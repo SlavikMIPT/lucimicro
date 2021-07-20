@@ -1,0 +1,3856 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 186825ad..e525e5bb 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -46,7 +46,7 @@ target_link_libraries(mbed-baremetal
+ # Validate selected C library type
+ # The C library type selected has to match the library that the target can support
+ if(${CMAKE_CROSSCOMPILING})
+-    if(${MBED_C_LIB} STREQUAL "small")
++    if("${MBED_C_LIB}" STREQUAL "small")
+         if(NOT "small" IN_LIST MBED_TARGET_SUPPORTED_C_LIBS)
+             if("std" IN_LIST MBED_TARGET_SUPPORTED_C_LIBS)
+                 message(WARNING
+@@ -117,13 +117,13 @@ if(${CMAKE_CROSSCOMPILING})
+     # Add compile definitions for backward compatibility with the toolchain
+     # supported. New source files should instead check for __GNUC__ and __clang__
+     # for the GCC_ARM and ARM toolchains respectively.
+-    if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++    if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+         target_compile_definitions(mbed-core
+             INTERFACE
+                 TOOLCHAIN_GCC_ARM
+                 TOOLCHAIN_GCC
+         )
+-    elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++    elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+         target_compile_definitions(mbed-core
+             INTERFACE
+                 TOOLCHAIN_ARM
+diff --git a/cmsis/device/rtos/CMakeLists.txt b/cmsis/device/rtos/CMakeLists.txt
+index 34cd1623..74e5d1d0 100644
+--- a/cmsis/device/rtos/CMakeLists.txt
++++ b/cmsis/device/rtos/CMakeLists.txt
+@@ -2,12 +2,12 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ if(${CMAKE_CROSSCOMPILING})
+-    if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++    if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+         target_sources(mbed-rtos
+             INTERFACE
+                 TOOLCHAIN_GCC_ARM/mbed_boot_gcc_arm.c
+         )
+-    elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++    elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+         target_sources(mbed-rtos
+             INTERFACE
+                 TOOLCHAIN_ARM_STD/mbed_boot_arm_std.c
+diff --git a/connectivity/drivers/emac/TARGET_RDA_EMAC/lwip-wifi/arch/TARGET_RDA/TARGET_UNO_91H/lib/CMakeLists.txt b/connectivity/drivers/emac/TARGET_RDA_EMAC/lwip-wifi/arch/TARGET_RDA/TARGET_UNO_91H/lib/CMakeLists.txt
+index 3f0d69fb..8200828a 100644
+--- a/connectivity/drivers/emac/TARGET_RDA_EMAC/lwip-wifi/arch/TARGET_RDA/TARGET_UNO_91H/lib/CMakeLists.txt
++++ b/connectivity/drivers/emac/TARGET_RDA_EMAC/lwip-wifi/arch/TARGET_RDA/TARGET_UNO_91H/lib/CMakeLists.txt
+@@ -2,9 +2,9 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ function(_mbed_get_lib_file_uno_91h)
+-    if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++    if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+         set(LIB_FILE TOOLCHAIN_GCC_ARM/libwifi_sta_ap.a)
+-    elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++    elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+         set(LIB_FILE TOOLCHAIN_ARM_STD/libwifi_sta_ap.ar)
+     endif()
+     target_sources(mbed-emac PRIVATE ${LIB_FILE})
+diff --git a/connectivity/drivers/mbedtls/FEATURE_CRYPTOCELL310/TARGET_MCU_NRF52840/CMakeLists.txt b/connectivity/drivers/mbedtls/FEATURE_CRYPTOCELL310/TARGET_MCU_NRF52840/CMakeLists.txt
+index 46726a49..9a73f6db 100644
+--- a/connectivity/drivers/mbedtls/FEATURE_CRYPTOCELL310/TARGET_MCU_NRF52840/CMakeLists.txt
++++ b/connectivity/drivers/mbedtls/FEATURE_CRYPTOCELL310/TARGET_MCU_NRF52840/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020-2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LIBCC_310_EXT TOOLCHAIN_GCC_ARM/libcc_310_ext.a)
+     set(LIBCC_310_TRNG TOOLCHAIN_GCC_ARM/libcc_310_trng.a)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LIBCC_310_EXT TOOLCHAIN_ARM/libcc_310_ext.ar)
+     set(LIBCC_310_TRNG TOOLCHAIN_ARM/libcc_310_trng.ar)
+ endif()
+diff --git a/connectivity/drivers/mbedtls/FEATURE_CRYPTOCELL310/binaries/CMakeLists.txt b/connectivity/drivers/mbedtls/FEATURE_CRYPTOCELL310/binaries/CMakeLists.txt
+index c8c6f7af..976b6d4c 100644
+--- a/connectivity/drivers/mbedtls/FEATURE_CRYPTOCELL310/binaries/CMakeLists.txt
++++ b/connectivity/drivers/mbedtls/FEATURE_CRYPTOCELL310/binaries/CMakeLists.txt
+@@ -1,9 +1,9 @@
+ # Copyright (c) 2020-2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LIBCC_310_CORE TOOLCHAIN_GCC_ARM/libcc_310_core.a)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LIBCC_310_CORE TOOLCHAIN_ARM/libcc_310_core.ar)
+ endif()
+ 
+diff --git a/connectivity/drivers/wifi/TARGET_WICED/CMakeLists.txt b/connectivity/drivers/wifi/TARGET_WICED/CMakeLists.txt
+index 8bcf3677..2b24854c 100644
+--- a/connectivity/drivers/wifi/TARGET_WICED/CMakeLists.txt
++++ b/connectivity/drivers/wifi/TARGET_WICED/CMakeLists.txt
+@@ -4,9 +4,9 @@
+ add_library(mbed-wiced INTERFACE)
+ 
+ if(${CMAKE_CROSSCOMPILING})
+-    if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++    if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+         set(LIB_WICED_DRIVERS TOOLCHAIN_ARMC6/TARGET_WIO_EMW3166/libwiced_drivers.ar)
+-    elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++    elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+         set(LIB_WICED_DRIVERS TOOLCHAIN_GCC_ARM/TARGET_WIO_EMW3166/libwiced_drivers.a)
+     endif()
+ 
+diff --git a/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M0/CMakeLists.txt b/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M0/CMakeLists.txt
+index ed564a82..b5191899 100644
+--- a/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M0/CMakeLists.txt
++++ b/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M0/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_library(mbed-fvp-mps2-m0 INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MPS2.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MPS2.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MPS2.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MPS2.S)
+ endif()
+diff --git a/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M0P/CMakeLists.txt b/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M0P/CMakeLists.txt
+index 5d47d9be..61c13b6c 100644
+--- a/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M0P/CMakeLists.txt
++++ b/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M0P/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_library(mbed-fvp-mps2-m0p INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MPS2.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MPS2.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MPS2.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MPS2.S)
+ endif()
+diff --git a/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M3/CMakeLists.txt b/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M3/CMakeLists.txt
+index b50d91f8..064d9ad9 100644
+--- a/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M3/CMakeLists.txt
++++ b/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M3/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_library(mbed-fvp-mps2-m3 INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MPS2.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MPS2.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MPS2.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MPS2.S)
+ endif()
+diff --git a/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M4/CMakeLists.txt b/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M4/CMakeLists.txt
+index 1450317a..a6bf20e6 100644
+--- a/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M4/CMakeLists.txt
++++ b/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M4/CMakeLists.txt
+@@ -8,10 +8,10 @@ target_include_directories(mbed-fvp-mps2-m4
+         device
+ )
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MPS2.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MPS2.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MPS2.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MPS2.S)
+ endif()
+diff --git a/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M7/CMakeLists.txt b/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M7/CMakeLists.txt
+index 8c1d4530..5c9d5427 100644
+--- a/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M7/CMakeLists.txt
++++ b/targets/TARGET_ARM_FM/TARGET_FVP_MPS2/TARGET_FVP_MPS2_M7/CMakeLists.txt
+@@ -8,10 +8,10 @@ target_include_directories(mbed-fvp-mps2-m7
+         device
+ )
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MPS2.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_CMSDK_CM7.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MPS2.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MPS2.S)
+ endif()
+diff --git a/targets/TARGET_ARM_SSG/TARGET_CM3DS_MPS2/CMakeLists.txt b/targets/TARGET_ARM_SSG/TARGET_CM3DS_MPS2/CMakeLists.txt
+index 841a37a5..2a5cbd6d 100644
+--- a/targets/TARGET_ARM_SSG/TARGET_CM3DS_MPS2/CMakeLists.txt
++++ b/targets/TARGET_ARM_SSG/TARGET_CM3DS_MPS2/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_library(mbed-arm-cm3ds-mps2 INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MPS2.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MPS2.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MPS2.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MPS2.S)
+ endif()
+diff --git a/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M0/CMakeLists.txt b/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M0/CMakeLists.txt
+index bebf41e8..dda0bb1b 100644
+--- a/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M0/CMakeLists.txt
++++ b/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M0/CMakeLists.txt
+@@ -3,10 +3,10 @@
+  
+ add_library(mbed-arm-mps2-m0 INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MPS2.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MPS2.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MPS2.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MPS2.S)
+ endif()
+diff --git a/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M0P/CMakeLists.txt b/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M0P/CMakeLists.txt
+index 8e2dbefd..cc398dc4 100644
+--- a/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M0P/CMakeLists.txt
++++ b/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M0P/CMakeLists.txt
+@@ -8,10 +8,10 @@ target_include_directories(mbed-arm-mps2-m0p
+         device
+ )
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MPS2.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MPS2.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MPS2.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MPS2.S)
+ endif()
+diff --git a/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M3/CMakeLists.txt b/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M3/CMakeLists.txt
+index e859a9e0..5202b2f2 100644
+--- a/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M3/CMakeLists.txt
++++ b/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M3/CMakeLists.txt
+@@ -8,10 +8,10 @@ target_include_directories(mbed-arm-mps2-m3
+         device
+ )
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MPS2.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MPS2.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MPS2.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MPS2.S)
+ endif()
+diff --git a/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M4/CMakeLists.txt b/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M4/CMakeLists.txt
+index ec169372..44bfbdf0 100644
+--- a/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M4/CMakeLists.txt
++++ b/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M4/CMakeLists.txt
+@@ -8,10 +8,10 @@ target_include_directories(mbed-arm-mps2-m4
+         device
+ )
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MPS2.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MPS2.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MPS2.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MPS2.S)
+ endif()
+diff --git a/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M7/CMakeLists.txt b/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M7/CMakeLists.txt
+index 225ad1c4..9e82864c 100644
+--- a/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M7/CMakeLists.txt
++++ b/targets/TARGET_ARM_SSG/TARGET_MPS2/TARGET_MPS2_M7/CMakeLists.txt
+@@ -8,10 +8,10 @@ target_include_directories(mbed-arm-mps2-m7
+         device
+ )
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MPS2.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_CMSDK_CM7.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MPS2.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MPS2.S)
+ endif()
+diff --git a/targets/TARGET_ARM_SSG/TARGET_MUSCA_B1/CMakeLists.txt b/targets/TARGET_ARM_SSG/TARGET_MUSCA_B1/CMakeLists.txt
+index a0e87f6a..bf669ca4 100644
+--- a/targets/TARGET_ARM_SSG/TARGET_MUSCA_B1/CMakeLists.txt
++++ b/targets/TARGET_ARM_SSG/TARGET_MUSCA_B1/CMakeLists.txt
+@@ -14,10 +14,10 @@ endif()
+ 
+ add_library(mbed-arm-musca-b1 INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARMC6/musca_ns.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARMC6/startup_cmsdk_musca_ns.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/musca_ns.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_cmsdk_musca_ns.S)
+ endif()
+diff --git a/targets/TARGET_ARM_SSG/TARGET_MUSCA_S1/CMakeLists.txt b/targets/TARGET_ARM_SSG/TARGET_MUSCA_S1/CMakeLists.txt
+index 559ba43a..c934774d 100644
+--- a/targets/TARGET_ARM_SSG/TARGET_MUSCA_S1/CMakeLists.txt
++++ b/targets/TARGET_ARM_SSG/TARGET_MUSCA_S1/CMakeLists.txt
+@@ -14,10 +14,10 @@ endif()
+ 
+ add_library(mbed-arm-musca-s1 INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARMC6/musca_ns.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARMC6/startup_cmsdk_musca_ns.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/musca_ns.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_cmsdk_musca_ns.S)
+ endif()
+diff --git a/targets/TARGET_Ambiq_Micro/TARGET_Apollo3/CMakeLists.txt b/targets/TARGET_Ambiq_Micro/TARGET_Apollo3/CMakeLists.txt
+index cc56e6c4..fded9190 100644
+--- a/targets/TARGET_Ambiq_Micro/TARGET_Apollo3/CMakeLists.txt
++++ b/targets/TARGET_Ambiq_Micro/TARGET_Apollo3/CMakeLists.txt
+@@ -15,10 +15,10 @@ add_subdirectory(TARGET_SFE_EDGE2 EXCLUDE_FROM_ALL)
+ 
+ add_library(mbed-apollo3 INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE TOOLCHAIN_ARM_STD/AMA3B1KK.sct)
+     set(STARTUP_FILE TOOLCHAIN_ARM_STD/startup_keil.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/AMA3B1KK.ld)
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_gcc.c)
+ endif()
+diff --git a/targets/TARGET_Analog_Devices/TARGET_ADUCM302X/TARGET_ADUCM3029/CMakeLists.txt b/targets/TARGET_Analog_Devices/TARGET_ADUCM302X/TARGET_ADUCM3029/CMakeLists.txt
+index dd82bc95..a72285a4 100644
+--- a/targets/TARGET_Analog_Devices/TARGET_ADUCM302X/TARGET_ADUCM3029/CMakeLists.txt
++++ b/targets/TARGET_Analog_Devices/TARGET_ADUCM302X/TARGET_ADUCM3029/CMakeLists.txt
+@@ -5,9 +5,9 @@ add_subdirectory(TARGET_EV_COG_AD3029LZ EXCLUDE_FROM_ALL)
+ 
+ add_library(mbed-aducm3029 INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE TOOLCHAIN_ARM_STD/ADuCM3029.sct)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/ADuCM3029.ld)
+ endif()
+ 
+diff --git a/targets/TARGET_Analog_Devices/TARGET_ADUCM4X50/TARGET_ADUCM4050/CMakeLists.txt b/targets/TARGET_Analog_Devices/TARGET_ADUCM4X50/TARGET_ADUCM4050/CMakeLists.txt
+index 26ab6617..fe1ec90f 100644
+--- a/targets/TARGET_Analog_Devices/TARGET_ADUCM4X50/TARGET_ADUCM4050/CMakeLists.txt
++++ b/targets/TARGET_Analog_Devices/TARGET_ADUCM4X50/TARGET_ADUCM4050/CMakeLists.txt
+@@ -5,9 +5,9 @@ add_subdirectory(TARGET_EV_COG_AD4050LZ EXCLUDE_FROM_ALL)
+ 
+ add_library(mbed-aducm4050 INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/ADuCM4050.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE TOOLCHAIN_ARM_STD/ADuCM4050.sct)
+ endif()
+ 
+diff --git a/targets/TARGET_Cypress/TARGET_PSOC6/CMakeLists.txt b/targets/TARGET_Cypress/TARGET_PSOC6/CMakeLists.txt
+index 212174df..8458897e 100644
+--- a/targets/TARGET_Cypress/TARGET_PSOC6/CMakeLists.txt
++++ b/targets/TARGET_Cypress/TARGET_PSOC6/CMakeLists.txt
+@@ -100,9 +100,9 @@ target_include_directories(mbed-psoc6
+         mtb-pdl-cat1/drivers/include
+ )
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(ASSEMBLY_ROUTINES mtb-pdl-cat1/drivers/source/TOOLCHAIN_ARM/cy_syslib_mdk.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(ASSEMBLY_ROUTINES mtb-pdl-cat1/drivers/source/TOOLCHAIN_GCC_ARM/cy_syslib_gcc.S)
+ endif()
+ 
+diff --git a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CKIT064B0S2_4343W/CMakeLists.txt b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CKIT064B0S2_4343W/CMakeLists.txt
+index 287eec26..9ce1831a 100644
+--- a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CKIT064B0S2_4343W/CMakeLists.txt
++++ b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CKIT064B0S2_4343W/CMakeLists.txt
+@@ -20,10 +20,10 @@ target_sources(mbed-cy8ckit064b0s2-4343w-bsp-design-modus
+ )
+ 
+ add_library(mbed-cy8ckit064b0s2-4343w-cm0p INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE_CM0P device/COMPONENT_CM0P/TOOLCHAIN_ARM/startup_psoc6_02_cm0plus.S)
+     set(LINKER_FILE_CM0P device/COMPONENT_CM0P/TOOLCHAIN_ARM/cyb06xxa_cm0plus.sct)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE_CM0P device/COMPONENT_CM0P/TOOLCHAIN_GCC_ARM/startup_psoc6_02_cm0plus.S)
+     set(LINKER_FILE_CM0P device/COMPONENT_CM0P/TOOLCHAIN_GCC_ARM/cyb06xxa_cm0plus.ld)
+ endif()
+@@ -35,10 +35,10 @@ target_sources(mbed-cy8ckit064b0s2-4343w-cm0p
+ mbed_set_linker_script(mbed-cy8ckit064b0s2-4343w-cm0p ${CMAKE_CURRENT_SOURCE_DIR}/${LINKER_FILE_CM0P})
+ 
+ add_library(mbed-cy8ckit064b0s2-4343w-cm4 INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE_CM4 device/COMPONENT_CM4/TOOLCHAIN_ARM/startup_psoc6_02_cm4.S)
+     set(LINKER_FILE_CM4 device/COMPONENT_CM4/TOOLCHAIN_ARM/cyb06xxa_cm4_dual.sct)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE_CM4 device/COMPONENT_CM4/TOOLCHAIN_GCC_ARM/startup_psoc6_02_cm4.S)
+     set(LINKER_FILE_CM4 device/COMPONENT_CM4/TOOLCHAIN_GCC_ARM/cyb06xxa_cm4_dual.ld)
+ endif()
+diff --git a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CKIT_062S2_43012/CMakeLists.txt b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CKIT_062S2_43012/CMakeLists.txt
+index 6cb68eed..7b1a3407 100644
+--- a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CKIT_062S2_43012/CMakeLists.txt
++++ b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CKIT_062S2_43012/CMakeLists.txt
+@@ -19,10 +19,10 @@ target_sources(mbed-cy8ckit-062s2-43012-bsp-design-modus
+ )
+ 
+ add_library(mbed-cy8ckit-062s2-43012-cm0p INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_ARM/startup_psoc6_02_cm0plus.S)
+     set(LINKER_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_ARM/cy8c6xxa_cm0plus.sct)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_GCC_ARM/startup_psoc6_02_cm0plus.S)
+     set(LINKER_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_GCC_ARM/cy8c6xxa_cm0plus.ld)
+ endif()
+@@ -34,10 +34,10 @@ target_sources(mbed-cy8ckit-062s2-43012-cm0p
+ mbed_set_linker_script(mbed-cy8ckit-062s2-43012-cm0p ${CMAKE_CURRENT_SOURCE_DIR}/${LINKER_FILE_CM0P})
+ 
+ add_library(mbed-cy8ckit-062s2-43012-cm4 INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_ARM/startup_psoc6_02_cm4.S)
+     set(LINKER_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_ARM/cy8c6xxa_cm4_dual.sct)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_GCC_ARM/startup_psoc6_02_cm4.S)
+     set(LINKER_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_GCC_ARM/cy8c6xxa_cm4_dual.ld)
+ endif()
+diff --git a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CKIT_062_BLE/CMakeLists.txt b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CKIT_062_BLE/CMakeLists.txt
+index 06fb29f1..de2de2a9 100644
+--- a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CKIT_062_BLE/CMakeLists.txt
++++ b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CKIT_062_BLE/CMakeLists.txt
+@@ -18,10 +18,10 @@ target_sources(mbed-cy8ckit-062-ble-bsp-design-modus
+ )
+ 
+ add_library(mbed-cy8ckit-062-ble-cm0p INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_ARM/cy8c6xx7_cm0plus.sct)
+     set(STARTUP_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_ARM/startup_psoc6_01_cm0plus.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_GCC_ARM/cy8c6xx7_cm0plus.ld)
+     set(STARTUP_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_GCC_ARM/startup_psoc6_01_cm0plus.S)
+ endif()
+@@ -33,10 +33,10 @@ target_sources(mbed-cy8ckit-062-ble-cm0p
+ mbed_set_linker_script(mbed-cy8ckit-062-ble-cm0p ${CMAKE_CURRENT_SOURCE_DIR}/${LINKER_FILE_CM0P})
+ 
+ add_library(mbed-cy8ckit-062-ble-cm4 INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_ARM/cy8c6xx7_cm4_dual.sct)
+     set(STARTUP_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_ARM/startup_psoc6_01_cm4.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_GCC_ARM/cy8c6xx7_cm4_dual.ld)
+     set(STARTUP_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_GCC_ARM/startup_psoc6_01_cm4.S)
+ endif()
+diff --git a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CKIT_062_WIFI_BT/CMakeLists.txt b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CKIT_062_WIFI_BT/CMakeLists.txt
+index 2d66224f..3b1af647 100644
+--- a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CKIT_062_WIFI_BT/CMakeLists.txt
++++ b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CKIT_062_WIFI_BT/CMakeLists.txt
+@@ -19,10 +19,10 @@ target_sources(mbed-cy8ckit-062-wifi-bt-bsp-design-modus
+ )
+ 
+ add_library(mbed-cy8ckit-062-wifi-bt-cm0p INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_ARM/cy8c6xx7_cm0plus.sct)
+     set(STARTUP_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_ARM/startup_psoc6_01_cm0plus.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_GCC_ARM/cy8c6xx7_cm0plus.ld)
+     set(STARTUP_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_GCC_ARM/startup_psoc6_01_cm0plus.S)
+ endif()
+@@ -34,10 +34,10 @@ target_sources(mbed-cy8ckit-062-wifi-bt-cm0p
+ mbed_set_linker_script(mbed-cy8ckit-062-wifi-bt-cm0p ${CMAKE_CURRENT_SOURCE_DIR}/${LINKER_FILE_CM0P})
+ 
+ add_library(mbed-cy8ckit-062-wifi-bt-cm4 INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_ARM/cy8c6xx7_cm4_dual.sct)
+     set(STARTUP_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_ARM/startup_psoc6_01_cm4.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_GCC_ARM/cy8c6xx7_cm4_dual.ld)
+     set(STARTUP_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_GCC_ARM/startup_psoc6_01_cm4.S)
+ endif()
+diff --git a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CPROTO_062S3_4343W/CMakeLists.txt b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CPROTO_062S3_4343W/CMakeLists.txt
+index 5edf88d0..98afdb0b 100644
+--- a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CPROTO_062S3_4343W/CMakeLists.txt
++++ b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CPROTO_062S3_4343W/CMakeLists.txt
+@@ -20,10 +20,10 @@ target_sources(mbed-cy8cproto-062s3-4343w-bsp-design-modus
+ )
+ 
+ add_library(mbed-cy8cproto-062s3-4343w-cm0p INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_ARM/cy8c6xx5_cm0plus.sct)
+     set(STARTUP_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_ARM/startup_psoc6_03_cm0plus.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_GCC_ARM/cy8c6xx5_cm0plus.ld)
+     set(STARTUP_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_GCC_ARM/startup_psoc6_03_cm0plus.S)
+ endif()
+@@ -35,10 +35,10 @@ target_sources(mbed-cy8cproto-062s3-4343w-cm0p
+ mbed_set_linker_script(mbed-cy8cproto-062s3-4343w-cm0p ${CMAKE_CURRENT_SOURCE_DIR}/${LINKER_FILE_CM0P})
+ 
+ add_library(mbed-cy8cproto-062s3-4343w-cm4 INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_ARM/cy8c6xx5_cm4_dual.sct)
+     set(STARTUP_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_ARM/startup_psoc6_03_cm4.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_GCC_ARM/cy8c6xx5_cm4_dual.ld)
+     set(STARTUP_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_GCC_ARM/startup_psoc6_03_cm4.S)
+ endif()
+diff --git a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CPROTO_062_4343W/CMakeLists.txt b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CPROTO_062_4343W/CMakeLists.txt
+index 5490d9d0..6d103261 100644
+--- a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CPROTO_062_4343W/CMakeLists.txt
++++ b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CY8CPROTO_062_4343W/CMakeLists.txt
+@@ -19,10 +19,10 @@ target_sources(mbed-cy8cproto-062-4343w-bsp-design-modus
+ )
+ 
+ add_library(mbed-cy8cproto-062-4343w-cm0p INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_ARM/cy8c6xxa_cm0plus.sct)
+     set(STARTUP_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_ARM/startup_psoc6_02_cm0plus.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_GCC_ARM/cy8c6xxa_cm0plus.ld)
+     set(STARTUP_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_GCC_ARM/startup_psoc6_02_cm0plus.S)
+ endif()
+@@ -34,10 +34,10 @@ target_sources(mbed-cy8cproto-062-4343w-cm0p
+ mbed_set_linker_script(mbed-cy8cproto-062-4343w-cm0p ${CMAKE_CURRENT_SOURCE_DIR}/${LINKER_FILE_CM0P})
+ 
+ add_library(mbed-cy8cproto-062-4343w-cm4 INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_ARM/cy8c6xxa_cm4_dual.sct)
+     set(STARTUP_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_ARM/startup_psoc6_02_cm4.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_GCC_ARM/cy8c6xxa_cm4_dual.ld)
+     set(STARTUP_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_GCC_ARM/startup_psoc6_02_cm4.S)
+ endif()
+diff --git a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CYSBSYSKIT_01/CMakeLists.txt b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CYSBSYSKIT_01/CMakeLists.txt
+index 2245ac28..b4969a17 100644
+--- a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CYSBSYSKIT_01/CMakeLists.txt
++++ b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CYSBSYSKIT_01/CMakeLists.txt
+@@ -19,10 +19,10 @@ target_sources(mbed-cysbsyskit-01-bsp-design-modus
+ )
+ 
+ add_library(mbed-cysbsyskit-01-cm4 INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_ARM/cy8c6xxa_cm4_dual.sct)
+     set(STARTUP_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_ARM/startup_psoc6_02_cm4.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_GCC_ARM/cy8c6xxa_cm4_dual.ld)
+     set(STARTUP_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_GCC_ARM/startup_psoc6_02_cm4.S)
+ endif()
+diff --git a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CYTFM_064B0S2_4343W/CMakeLists.txt b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CYTFM_064B0S2_4343W/CMakeLists.txt
+index 0c4784db..197466af 100644
+--- a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CYTFM_064B0S2_4343W/CMakeLists.txt
++++ b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CYTFM_064B0S2_4343W/CMakeLists.txt
+@@ -20,10 +20,10 @@ target_sources(mbed-cytfm-064b0s2-4343w-bsp-design-modus
+ )
+ 
+ add_library(mbed-cytfm-064b0s2-4343w-cm4 INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE_CM4 device/COMPONENT_CM4/TOOLCHAIN_ARM/cyb06xxa_cm4_dual.sct)
+     set(STARTUP_FILE_CM4 device/COMPONENT_CM4/TOOLCHAIN_ARM/startup_psoc6_02_cm4.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE_CM4 device/COMPONENT_CM4/TOOLCHAIN_GCC_ARM/cyb06xxa_cm4_dual.ld)
+     set(STARTUP_FILE_CM4 device/COMPONENT_CM4/TOOLCHAIN_GCC_ARM/startup_psoc6_02_cm4.S)
+ endif()
+diff --git a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CYW9P62S1_43012EVB_01/CMakeLists.txt b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CYW9P62S1_43012EVB_01/CMakeLists.txt
+index dc3a1e4f..fa6f7a48 100644
+--- a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CYW9P62S1_43012EVB_01/CMakeLists.txt
++++ b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CYW9P62S1_43012EVB_01/CMakeLists.txt
+@@ -20,10 +20,10 @@ target_sources(mbed-cyw9p62s1-43012evb-01-bsp-design-modus
+ )
+ 
+ add_library(mbed-cyw9p62s1-43012evb-01-cm0p INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_ARM/cy8c6xx7_cm0plus.sct)
+     set(STARTUP_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_ARM/startup_psoc6_01_cm0plus.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_GCC_ARM/cy8c6xx7_cm0plus.ld)
+     set(STARTUP_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_GCC_ARM/startup_psoc6_01_cm0plus.S)
+ endif()
+@@ -35,10 +35,10 @@ target_sources(mbed-cyw9p62s1-43012evb-01-cm0p
+ mbed_set_linker_script(mbed-cyw9p62s1-43012evb-01-cm0p ${CMAKE_CURRENT_SOURCE_DIR}/${LINKER_FILE_CM0P})
+ 
+ add_library(mbed-cyw9p62s1-43012evb-01-cm4 INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_ARM/cy8c6xx7_cm4_dual.sct)
+     set(STARTUP_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_ARM/startup_psoc6_01_cm4.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_GCC_ARM/cy8c6xx7_cm4_dual.ld)
+     set(STARTUP_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_GCC_ARM/startup_psoc6_01_cm4.S)
+ endif()
+diff --git a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CYW9P62S1_43438EVB_01/CMakeLists.txt b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CYW9P62S1_43438EVB_01/CMakeLists.txt
+index 72531c1c..732dbc67 100644
+--- a/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CYW9P62S1_43438EVB_01/CMakeLists.txt
++++ b/targets/TARGET_Cypress/TARGET_PSOC6/TARGET_CYW9P62S1_43438EVB_01/CMakeLists.txt
+@@ -19,10 +19,10 @@ target_sources(mbed-cyw9p62s1-43438evb-01-bsp-design-modus
+ )
+ 
+ add_library(mbed-cyw9p62s1-43438evb-01-cm0p INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_ARM/cy8c6xx7_cm0plus.sct)
+     set(STARTUP_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_ARM/startup_psoc6_01_cm0plus.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_GCC_ARM/cy8c6xx7_cm0plus.ld)
+     set(STARTUP_FILE_CM0P COMPONENT_CM0P/TOOLCHAIN_GCC_ARM/startup_psoc6_01_cm0plus.S)
+ endif()
+@@ -34,10 +34,10 @@ target_sources(mbed-cyw9p62s1-43438evb-01-cm0p
+ mbed_set_linker_script(mbed-cyw9p62s1-43438evb-01-cm0p ${CMAKE_CURRENT_SOURCE_DIR}/${LINKER_FILE_CM0P})
+ 
+ add_library(mbed-cyw9p62s1-43438evb-01-cm4 INTERFACE)
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_ARM/cy8c6xx7_cm4_dual.sct)
+     set(STARTUP_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_ARM/startup_psoc6_01_cm4.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_GCC_ARM/cy8c6xx7_cm4_dual.ld)
+     set(STARTUP_FILE_CM4 COMPONENT_CM4/TOOLCHAIN_GCC_ARM/startup_psoc6_01_cm4.S)
+ endif()
+diff --git a/targets/TARGET_Freescale/TARGET_KLXX/TARGET_KL25Z/CMakeLists.txt b/targets/TARGET_Freescale/TARGET_KLXX/TARGET_KL25Z/CMakeLists.txt
+index e5645ea2..f1f5d039 100644
+--- a/targets/TARGET_Freescale/TARGET_KLXX/TARGET_KL25Z/CMakeLists.txt
++++ b/targets/TARGET_Freescale/TARGET_KLXX/TARGET_KL25Z/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020-2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MKL25Z4.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MKL25Z4.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MKL25Z4.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MKL25Z4.S)
+ endif()
+diff --git a/targets/TARGET_Freescale/TARGET_KLXX/TARGET_KL46Z/CMakeLists.txt b/targets/TARGET_Freescale/TARGET_KLXX/TARGET_KL46Z/CMakeLists.txt
+index bcc94bcc..c649adf3 100644
+--- a/targets/TARGET_Freescale/TARGET_KLXX/TARGET_KL46Z/CMakeLists.txt
++++ b/targets/TARGET_Freescale/TARGET_KLXX/TARGET_KL46Z/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020-2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MKL46Z4.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MKL46Z4.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MKL46Z4.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MKL46Z4.S)
+ endif()
+diff --git a/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_K66F/CMakeLists.txt b/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_K66F/CMakeLists.txt
+index 87e973f9..496220d5 100644
+--- a/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_K66F/CMakeLists.txt
++++ b/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_K66F/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_FRDM EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MK66FN2M0xxx18.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MK66F18.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MK66FN2M0xxx18.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MK66F18.S)
+ endif()
+diff --git a/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_K82F/CMakeLists.txt b/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_K82F/CMakeLists.txt
+index 6b1f2999..b1892948 100644
+--- a/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_K82F/CMakeLists.txt
++++ b/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_K82F/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_FRDM EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MK82FN256xxx15.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MK82F25615.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MK82FN256xxx15.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MK82F25615.S)
+ endif()
+diff --git a/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_KL43Z/CMakeLists.txt b/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_KL43Z/CMakeLists.txt
+index 84922030..3eb67ee3 100644
+--- a/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_KL43Z/CMakeLists.txt
++++ b/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_KL43Z/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_FRDM EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MKL43Z256xxx4.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MKL43Z4.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MKL43Z256xxx4.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MKL43Z4.S)
+ endif()
+diff --git a/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_KW41Z/CMakeLists.txt b/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_KW41Z/CMakeLists.txt
+index cfb680c1..ee5e2650 100644
+--- a/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_KW41Z/CMakeLists.txt
++++ b/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_KW41Z/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_FRDM EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MKW41Z512xxx4.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MKW41Z4.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MKW41Z512xxx4.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MKW41Z4.S)
+ endif()
+diff --git a/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_MCU_K22F/TARGET_MCU_K22F512/CMakeLists.txt b/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_MCU_K22F/TARGET_MCU_K22F512/CMakeLists.txt
+index 9ce48435..683e6332 100644
+--- a/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_MCU_K22F/TARGET_MCU_K22F512/CMakeLists.txt
++++ b/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_MCU_K22F/TARGET_MCU_K22F512/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_FRDM EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MK22FN512xxx12.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MK22F51212.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MK22FN512xxx12.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MK22F51212.S)
+ endif()
+diff --git a/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_MCU_K64F/CMakeLists.txt b/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_MCU_K64F/CMakeLists.txt
+index 1941818f..79de16c4 100644
+--- a/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_MCU_K64F/CMakeLists.txt
++++ b/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_MCU_K64F/CMakeLists.txt
+@@ -5,10 +5,10 @@ add_subdirectory(TARGET_FRDM EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_HEXIWEAR EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_SDT64B EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MK64FN1M0xxx12.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MK64F12.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MK64FN1M0xxx12.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MK64F12.S)
+ endif()
+diff --git a/targets/TARGET_GigaDevice/TARGET_GD32F30X/CMakeLists.txt b/targets/TARGET_GigaDevice/TARGET_GD32F30X/CMakeLists.txt
+index 9a83cd17..d7ea247c 100644
+--- a/targets/TARGET_GigaDevice/TARGET_GD32F30X/CMakeLists.txt
++++ b/targets/TARGET_GigaDevice/TARGET_GD32F30X/CMakeLists.txt
+@@ -16,10 +16,10 @@ target_sources(mbed-gd32-f307vg
+         TARGET_GD32F307VG/device/system_gd32f30x.c
+ )
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE TARGET_GD32F307VG/device/TOOLCHAIN_ARM_STD/gd32f307vg.sct)
+     set(STARTUP_FILE TARGET_GD32F307VG/device/TOOLCHAIN_ARM_STD/startup_gd32f30x_cl.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE TARGET_GD32F307VG/device/TOOLCHAIN_GCC_ARM/GD32F307xG.ld)
+     set(STARTUP_FILE TARGET_GD32F307VG/device/TOOLCHAIN_GCC_ARM/startup_gd32f30x_cl.S)
+ endif()
+diff --git a/targets/TARGET_GigaDevice/TARGET_GD32F4XX/CMakeLists.txt b/targets/TARGET_GigaDevice/TARGET_GD32F4XX/CMakeLists.txt
+index 439e1482..0327a926 100644
+--- a/targets/TARGET_GigaDevice/TARGET_GD32F4XX/CMakeLists.txt
++++ b/targets/TARGET_GigaDevice/TARGET_GD32F4XX/CMakeLists.txt
+@@ -13,10 +13,10 @@ target_sources(mbed-gd32-f450zi
+         TARGET_GD32F450ZI/PeripheralPins.c
+ )
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/gd32f450zi.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_gd32f450.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/GD32F450xI.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_gd32f450.S)
+ endif()
+diff --git a/targets/TARGET_Maxim/TARGET_MAX32620C/CMakeLists.txt b/targets/TARGET_Maxim/TARGET_MAX32620C/CMakeLists.txt
+index 979b41ec..63021c15 100644
+--- a/targets/TARGET_Maxim/TARGET_MAX32620C/CMakeLists.txt
++++ b/targets/TARGET_Maxim/TARGET_MAX32620C/CMakeLists.txt
+@@ -4,10 +4,10 @@
+ add_subdirectory(TARGET_MAX32620FTHR EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_SDT32620B EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MAX32620.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_max32620.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/max32620.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_max32620.S)
+ endif()
+diff --git a/targets/TARGET_Maxim/TARGET_MAX32625/CMakeLists.txt b/targets/TARGET_Maxim/TARGET_MAX32625/CMakeLists.txt
+index e95dfb47..3856354f 100644
+--- a/targets/TARGET_Maxim/TARGET_MAX32625/CMakeLists.txt
++++ b/targets/TARGET_Maxim/TARGET_MAX32625/CMakeLists.txt
+@@ -6,9 +6,9 @@ add_subdirectory(TARGET_MAX32625PICO EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_SDT32625B EXCLUDE_FROM_ALL)
+ add_subdirectory(device EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MAX32625.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_max32625.S)
+ endif()
+ 
+diff --git a/targets/TARGET_Maxim/TARGET_MAX32625/device/CMakeLists.txt b/targets/TARGET_Maxim/TARGET_MAX32625/device/CMakeLists.txt
+index 90c4fc6d..a2a0d75c 100644
+--- a/targets/TARGET_Maxim/TARGET_MAX32625/device/CMakeLists.txt
++++ b/targets/TARGET_Maxim/TARGET_MAX32625/device/CMakeLists.txt
+@@ -3,9 +3,9 @@
+ 
+ add_library(mbed-max32625-boot INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE_BOOT TOOLCHAIN_GCC_ARM/TARGET_MAX32625_BOOT/max32625.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE_BOOT TOOLCHAIN_ARM_STD/TARGET_MAX32625_BOOT/MAX32625.sct)
+ endif()
+ 
+@@ -15,9 +15,9 @@ target_link_libraries(mbed-max32625-boot INTERFACE mbed-max32625)
+ 
+ add_library(mbed-max32625-no-boot INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE_NO_BOOT TOOLCHAIN_GCC_ARM/TARGET_MAX32625_NO_BOOT/max32625.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE_NO_BOOT TOOLCHAIN_ARM_STD/TARGET_MAX32625_NO_BOOT/MAX32625.sct)
+ endif()
+ 
+diff --git a/targets/TARGET_Maxim/TARGET_MAX32630/CMakeLists.txt b/targets/TARGET_Maxim/TARGET_MAX32630/CMakeLists.txt
+index 1adf3612..a80035fb 100644
+--- a/targets/TARGET_Maxim/TARGET_MAX32630/CMakeLists.txt
++++ b/targets/TARGET_Maxim/TARGET_MAX32630/CMakeLists.txt
+@@ -3,13 +3,13 @@
+ 
+ add_subdirectory(TARGET_MAX32630FTHR EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MAX3263x.sct)
+ 
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MAX3263x.S)
+ 
+     set(LIB_EXACT_LE TOOLCHAIN_ARM_STD/libexactLE.ar)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/max3263x.ld)
+ 
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_max3263x.S)
+diff --git a/targets/TARGET_NORDIC/TARGET_NRF5x/TARGET_NRF52/TARGET_MCU_NRF52832/CMakeLists.txt b/targets/TARGET_NORDIC/TARGET_NRF5x/TARGET_NRF52/TARGET_MCU_NRF52832/CMakeLists.txt
+index c7ad8236..b02cecde 100644
+--- a/targets/TARGET_NORDIC/TARGET_NRF5x/TARGET_NRF52/TARGET_MCU_NRF52832/CMakeLists.txt
++++ b/targets/TARGET_NORDIC/TARGET_NRF5x/TARGET_NRF52/TARGET_MCU_NRF52832/CMakeLists.txt
+@@ -14,10 +14,10 @@ target_include_directories(mbed-sdt52832b
+         TARGET_SDT52832B
+ )
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/nRF52832.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_nrf52832.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/NRF52832.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_NRF52832.S)
+ endif()
+diff --git a/targets/TARGET_NORDIC/TARGET_NRF5x/TARGET_NRF52/TARGET_MCU_NRF52840/CMakeLists.txt b/targets/TARGET_NORDIC/TARGET_NRF5x/TARGET_NRF52/TARGET_MCU_NRF52840/CMakeLists.txt
+index 7193d458..54d80db0 100644
+--- a/targets/TARGET_NORDIC/TARGET_NRF5x/TARGET_NRF52/TARGET_MCU_NRF52840/CMakeLists.txt
++++ b/targets/TARGET_NORDIC/TARGET_NRF5x/TARGET_NRF52/TARGET_MCU_NRF52840/CMakeLists.txt
+@@ -37,10 +37,10 @@ target_include_directories(mbed-nrf52840-dk
+         TARGET_NRF52840_DK
+ )
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/nRF52840.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_nrf52840.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/NRF52840.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_NRF52840.S)
+ endif()
+diff --git a/targets/TARGET_NUVOTON/TARGET_M2354/CMakeLists.txt b/targets/TARGET_NUVOTON/TARGET_M2354/CMakeLists.txt
+index 0a6d86f2..b8b38e38 100644
+--- a/targets/TARGET_NUVOTON/TARGET_M2354/CMakeLists.txt
++++ b/targets/TARGET_NUVOTON/TARGET_M2354/CMakeLists.txt
+@@ -1,9 +1,9 @@
+ # Copyright (c) 2020-2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/M2354.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARMC6/M2354.sct)
+ endif()
+ 
+diff --git a/targets/TARGET_NUVOTON/TARGET_M251/CMakeLists.txt b/targets/TARGET_NUVOTON/TARGET_M251/CMakeLists.txt
+index 93ee5210..9275e6d2 100644
+--- a/targets/TARGET_NUVOTON/TARGET_M251/CMakeLists.txt
++++ b/targets/TARGET_NUVOTON/TARGET_M251/CMakeLists.txt
+@@ -1,9 +1,9 @@
+ # Copyright (c) 2020-2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/M251.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARMC6/M251.sct)
+ endif()
+ 
+diff --git a/targets/TARGET_NUVOTON/TARGET_M261/CMakeLists.txt b/targets/TARGET_NUVOTON/TARGET_M261/CMakeLists.txt
+index 897c85f5..eba84876 100644
+--- a/targets/TARGET_NUVOTON/TARGET_M261/CMakeLists.txt
++++ b/targets/TARGET_NUVOTON/TARGET_M261/CMakeLists.txt
+@@ -1,9 +1,9 @@
+ # Copyright (c) 2020-2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/M261.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARMC6/M261.sct)
+ endif()
+ 
+diff --git a/targets/TARGET_NUVOTON/TARGET_M451/CMakeLists.txt b/targets/TARGET_NUVOTON/TARGET_M451/CMakeLists.txt
+index dd7fd33b..d13269d3 100644
+--- a/targets/TARGET_NUVOTON/TARGET_M451/CMakeLists.txt
++++ b/targets/TARGET_NUVOTON/TARGET_M451/CMakeLists.txt
+@@ -1,9 +1,9 @@
+ # Copyright (c) 2020-2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/M453.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM/M453.sct)
+ endif()
+ 
+diff --git a/targets/TARGET_NUVOTON/TARGET_M480/CMakeLists.txt b/targets/TARGET_NUVOTON/TARGET_M480/CMakeLists.txt
+index c3fa0838..7aa324c2 100644
+--- a/targets/TARGET_NUVOTON/TARGET_M480/CMakeLists.txt
++++ b/targets/TARGET_NUVOTON/TARGET_M480/CMakeLists.txt
+@@ -1,9 +1,9 @@
+ # Copyright (c) 2020-2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/M487.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/M487.sct)
+ endif()
+ 
+diff --git a/targets/TARGET_NUVOTON/TARGET_NANO100/CMakeLists.txt b/targets/TARGET_NUVOTON/TARGET_NANO100/CMakeLists.txt
+index f959a62b..c16f0d71 100644
+--- a/targets/TARGET_NUVOTON/TARGET_NANO100/CMakeLists.txt
++++ b/targets/TARGET_NUVOTON/TARGET_NANO100/CMakeLists.txt
+@@ -1,9 +1,9 @@
+ # Copyright (c) 2020-2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/NANO130.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM/NANO130.sct)
+ endif()
+ 
+diff --git a/targets/TARGET_NUVOTON/TARGET_NUC472/CMakeLists.txt b/targets/TARGET_NUVOTON/TARGET_NUC472/CMakeLists.txt
+index 02ae50fc..771636f5 100644
+--- a/targets/TARGET_NUVOTON/TARGET_NUC472/CMakeLists.txt
++++ b/targets/TARGET_NUVOTON/TARGET_NUC472/CMakeLists.txt
+@@ -1,13 +1,13 @@
+ # Copyright (c) 2020-2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     if("NU_XRAM_SUPPORTED" IN_LIST MBED_TARGET_LABELS)
+         set(LINKER_FILE_NU_XRAM_SUPPORTED device/TOOLCHAIN_GCC_ARM/TARGET_NU_XRAM_SUPPORTED/NUC472.ld)
+     elseif("NU_XRAM_UNSUPPORTED" IN_LIST MBED_TARGET_LABELS)
+         set(LINKER_FILE_NU_XRAM_UNSUPPORTED device/TOOLCHAIN_GCC_ARM/TARGET_NU_XRAM_UNSUPPORTED/NUC472.ld)
+     endif()
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     if("NU_XRAM_SUPPORTED" IN_LIST MBED_TARGET_LABELS)
+         set(LINKER_FILE_NU_XRAM_SUPPORTED device/TOOLCHAIN_ARM_STD/TARGET_NU_XRAM_SUPPORTED/NUC472.sct)
+     elseif("NU_XRAM_UNSUPPORTED" IN_LIST MBED_TARGET_LABELS)
+diff --git a/targets/TARGET_NXP/TARGET_LPC11XX_11CXX/CMakeLists.txt b/targets/TARGET_NXP/TARGET_LPC11XX_11CXX/CMakeLists.txt
+index be5f11f6..687d6a88 100644
+--- a/targets/TARGET_NXP/TARGET_LPC11XX_11CXX/CMakeLists.txt
++++ b/targets/TARGET_NXP/TARGET_LPC11XX_11CXX/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020-2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/TARGET_LPC11XX/startup_LPC11xx.S)
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/TARGET_LPC11XX/LPC1114.sct)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_LPC11xx.S)
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/TARGET_LPC11XX/LPC1114.ld)
+ endif()
+diff --git a/targets/TARGET_NXP/TARGET_LPC176X/CMakeLists.txt b/targets/TARGET_NXP/TARGET_LPC176X/CMakeLists.txt
+index e5ff520e..a4d63d87 100644
+--- a/targets/TARGET_NXP/TARGET_LPC176X/CMakeLists.txt
++++ b/targets/TARGET_NXP/TARGET_LPC176X/CMakeLists.txt
+@@ -6,10 +6,10 @@ add_subdirectory(TARGET_MBED_LPC1768 EXCLUDE_FROM_ALL)
+ 
+ add_library(mbed-lpc176x INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_LPC17xx.S)
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/LPC1768.sct)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_LPC17xx.S)
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/LPC1768.ld)
+ endif()
+diff --git a/targets/TARGET_NXP/TARGET_MCUXpresso_MCUS/TARGET_LPC54114/device/TARGET_LPC54114_M4/CMakeLists.txt b/targets/TARGET_NXP/TARGET_MCUXpresso_MCUS/TARGET_LPC54114/device/TARGET_LPC54114_M4/CMakeLists.txt
+index 36e3ce3d..60eabede 100644
+--- a/targets/TARGET_NXP/TARGET_MCUXpresso_MCUS/TARGET_LPC54114/device/TARGET_LPC54114_M4/CMakeLists.txt
++++ b/targets/TARGET_NXP/TARGET_MCUXpresso_MCUS/TARGET_LPC54114/device/TARGET_LPC54114_M4/CMakeLists.txt
+@@ -3,11 +3,11 @@
+ 
+ include(mbed_set_post_build_nxp)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM_STD/startup_LPC54114_cm4.S)
+     set(LINKER_FILE TOOLCHAIN_ARM_STD/LPC54114J256_cm4.sct)
+     set(LIB_POWER TOOLCHAIN_ARM_STD/libpower.ar)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_LPC54114_cm4.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/LPC54114J256_cm4_flash.ld)
+     set(LIB_POWER TOOLCHAIN_GCC_ARM/libpower.a)
+diff --git a/targets/TARGET_NXP/TARGET_MCUXpresso_MCUS/TARGET_MCU_LPC546XX/CMakeLists.txt b/targets/TARGET_NXP/TARGET_MCUXpresso_MCUS/TARGET_MCU_LPC546XX/CMakeLists.txt
+index 0144b79a..1b0c345f 100644
+--- a/targets/TARGET_NXP/TARGET_MCUXpresso_MCUS/TARGET_MCU_LPC546XX/CMakeLists.txt
++++ b/targets/TARGET_NXP/TARGET_MCUXpresso_MCUS/TARGET_MCU_LPC546XX/CMakeLists.txt
+@@ -6,11 +6,11 @@ include(mbed_set_post_build_nxp)
+ add_subdirectory(TARGET_FF_LPC546XX EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_LPCXpresso EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_LPC54628.S)
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/LPC54628J512.sct)
+     set(LIB_POWER device/TOOLCHAIN_ARM_STD/lib_power.ar)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_LPC54628.S)
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/LPC54628J512.ld)
+     set(LIB_POWER device/TOOLCHAIN_GCC_ARM/libpower.a)
+diff --git a/targets/TARGET_NXP/TARGET_MCUXpresso_MCUS/TARGET_MIMXRT1050/CMakeLists.txt b/targets/TARGET_NXP/TARGET_MCUXpresso_MCUS/TARGET_MIMXRT1050/CMakeLists.txt
+index fbceb072..ea615db3 100644
+--- a/targets/TARGET_NXP/TARGET_MCUXpresso_MCUS/TARGET_MIMXRT1050/CMakeLists.txt
++++ b/targets/TARGET_NXP/TARGET_MCUXpresso_MCUS/TARGET_MIMXRT1050/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_EVK EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MIMXRT1052.S)
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MIMXRT1052xxxxx.sct)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MIMXRT1052.S)
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MIMXRT1052xxxxx.ld)
+ endif()
+diff --git a/targets/TARGET_NXP/TARGET_MCUXpresso_MCUS/TARGET_MIMXRT1170/CMakeLists.txt b/targets/TARGET_NXP/TARGET_MCUXpresso_MCUS/TARGET_MIMXRT1170/CMakeLists.txt
+index 84317d67..ee4fb523 100644
+--- a/targets/TARGET_NXP/TARGET_MCUXpresso_MCUS/TARGET_MIMXRT1170/CMakeLists.txt
++++ b/targets/TARGET_NXP/TARGET_MCUXpresso_MCUS/TARGET_MIMXRT1170/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_EVK EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_MIMXRT1176_cm7.S)
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MIMXRT1176xxxxx.sct)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_MIMXRT1176_cm7.S)
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/MIMXRT1170xxxxx.ld)
+ endif()
+diff --git a/targets/TARGET_RENESAS/TARGET_RZ_A1XX/TARGET_GR_LYCHEE/CMakeLists.txt b/targets/TARGET_RENESAS/TARGET_RZ_A1XX/TARGET_GR_LYCHEE/CMakeLists.txt
+index eb162ed8..a3b320fe 100644
+--- a/targets/TARGET_RENESAS/TARGET_RZ_A1XX/TARGET_GR_LYCHEE/CMakeLists.txt
++++ b/targets/TARGET_RENESAS/TARGET_RZ_A1XX/TARGET_GR_LYCHEE/CMakeLists.txt
+@@ -1,11 +1,11 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MBRZA1LU.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_RZ_A1LU.S)
+     set(WEAK_HANDLER_FILE device/TOOLCHAIN_ARM_STD/weak_handler.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/RZA1LU.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_RZ1ALU.S)
+     set(WEAK_HANDLER_FILE device/TOOLCHAIN_GCC_ARM/weak_handler.S)
+diff --git a/targets/TARGET_RENESAS/TARGET_RZ_A1XX/TARGET_RZ_A1H/CMakeLists.txt b/targets/TARGET_RENESAS/TARGET_RZ_A1XX/TARGET_RZ_A1H/CMakeLists.txt
+index 74185628..8198fc88 100644
+--- a/targets/TARGET_RENESAS/TARGET_RZ_A1XX/TARGET_RZ_A1H/CMakeLists.txt
++++ b/targets/TARGET_RENESAS/TARGET_RZ_A1XX/TARGET_RZ_A1H/CMakeLists.txt
+@@ -1,11 +1,11 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MBRZA1H.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_RZ_A1H.S)
+     set(WEAK_HANDLER_FILE device/TOOLCHAIN_ARM_STD/weak_handler.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/RZA1H.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_RZ1AH.S)
+     set(WEAK_HANDLER_FILE device/TOOLCHAIN_GCC_ARM/weak_handler.S)
+diff --git a/targets/TARGET_RENESAS/TARGET_RZ_A2XX/TARGET_GR_MANGO/CMakeLists.txt b/targets/TARGET_RENESAS/TARGET_RZ_A2XX/TARGET_GR_MANGO/CMakeLists.txt
+index e1803c9e..161c43f3 100644
+--- a/targets/TARGET_RENESAS/TARGET_RZ_A2XX/TARGET_GR_MANGO/CMakeLists.txt
++++ b/targets/TARGET_RENESAS/TARGET_RZ_A2XX/TARGET_GR_MANGO/CMakeLists.txt
+@@ -1,11 +1,11 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/MBRZA1H.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_RZ_A2M.S)
+     set(WEAK_HANDLER_FILE device/TOOLCHAIN_ARM_STD/weak_handler.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/RZA2M.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_RZA2M.S)
+     set(WEAK_HANDLER_FILE device/TOOLCHAIN_GCC_ARM/weak_handler.S)
+diff --git a/targets/TARGET_STM/TARGET_STM32F0/TARGET_STM32F030x8/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F0/TARGET_STM32F030x8/CMakeLists.txt
+index 01092341..12983afb 100644
+--- a/targets/TARGET_STM/TARGET_STM32F0/TARGET_STM32F030x8/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F0/TARGET_STM32F030x8/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f030x8.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f030x8.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f030x8.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f030x8.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F0/TARGET_STM32F070xB/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F0/TARGET_STM32F070xB/CMakeLists.txt
+index 785809ad..135e9dea 100644
+--- a/targets/TARGET_STM/TARGET_STM32F0/TARGET_STM32F070xB/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F0/TARGET_STM32F070xB/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_F070RB EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f070xb.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/STM32F070XB.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f070xb.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f070xb.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F0/TARGET_STM32F072xB/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F0/TARGET_STM32F072xB/CMakeLists.txt
+index 6b985b14..287edc3a 100644
+--- a/targets/TARGET_STM/TARGET_STM32F0/TARGET_STM32F072xB/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F0/TARGET_STM32F072xB/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_F072RB EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f072xb.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/STM32F072XB.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f072xb.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f072xb.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F0/TARGET_STM32F091xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F0/TARGET_STM32F091xC/CMakeLists.txt
+index 549905ae..ecef0f5c 100644
+--- a/targets/TARGET_STM/TARGET_STM32F0/TARGET_STM32F091xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F0/TARGET_STM32F091xC/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_F091RC EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f091xc.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/STM32F091XC.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f091xc.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f091xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F1/TARGET_STM32F103x8/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F1/TARGET_STM32F103x8/CMakeLists.txt
+index 2eaa2ae2..7ed672a6 100644
+--- a/targets/TARGET_STM/TARGET_STM32F1/TARGET_STM32F103x8/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F1/TARGET_STM32F103x8/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f103xb.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f103x8.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f103xb.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f103x8.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F1/TARGET_STM32F103xB/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F1/TARGET_STM32F103xB/CMakeLists.txt
+index 68ba1522..fe82b368 100644
+--- a/targets/TARGET_STM/TARGET_STM32F1/TARGET_STM32F103xB/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F1/TARGET_STM32F103xB/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_F103RB EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f103xb.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f103xb.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f103xb.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f103xb.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F1/TARGET_STM32F103xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F1/TARGET_STM32F103xE/CMakeLists.txt
+index b884d67d..ae32ac0b 100644
+--- a/targets/TARGET_STM/TARGET_STM32F1/TARGET_STM32F103xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F1/TARGET_STM32F103xE/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f103xe.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f103xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f103xe.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f103xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F2/TARGET_STM32F207xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F2/TARGET_STM32F207xG/CMakeLists.txt
+index 77a1c383..bd2897e1 100644
+--- a/targets/TARGET_STM/TARGET_STM32F2/TARGET_STM32F207xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F2/TARGET_STM32F207xG/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_F207ZG EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f207xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f207xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f207xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f207xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F302x8/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F302x8/CMakeLists.txt
+index b3200fe4..16dabede 100644
+--- a/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F302x8/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F302x8/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f302x8.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/STM32F302X8.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f302x8.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f302x8.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F303x8/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F303x8/CMakeLists.txt
+index b356c4e8..42d27b54 100644
+--- a/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F303x8/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F303x8/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_F303K8 EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f303x8.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/STM32F303X8.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f303x8.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f303x8.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F303xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F303xC/CMakeLists.txt
+index 1c8c36a1..cf7b362c 100644
+--- a/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F303xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F303xC/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f303xc.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/STM32F303XC.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f303xc.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f303xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F303xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F303xE/CMakeLists.txt
+index 6752f8d0..b9a91a73 100644
+--- a/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F303xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F303xE/CMakeLists.txt
+@@ -4,10 +4,10 @@
+ add_subdirectory(TARGET_NUCLEO_F303RE EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_NUCLEO_F303ZE EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f303xe.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/STM32F303XE.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f303xe.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f303xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F334x8/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F334x8/CMakeLists.txt
+index fc2fe950..593c2f40 100644
+--- a/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F334x8/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F3/TARGET_STM32F334x8/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f334x8.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/STM32F334X8.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f334x8.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f334x8.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F401xB/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F401xB/CMakeLists.txt
+index dfa567fd..d13e0207 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F401xB/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F401xB/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f401xc.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f401xb.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f401xc.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f401xb.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F401xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F401xC/CMakeLists.txt
+index adfe67e7..81f70f14 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F401xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F401xC/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f401xc.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f401xc.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f401xc.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f401xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F401xD/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F401xD/CMakeLists.txt
+index 38211445..540bae59 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F401xD/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F401xD/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f401xe.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f401xd.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f401xe.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f401xd.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F401xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F401xE/CMakeLists.txt
+index b68e02ca..5ba8f195 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F401xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F401xE/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_F401RE EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f401xe.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f401xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f401xe.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f401xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F405xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F405xE/CMakeLists.txt
+index f44c67bc..779745f3 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F405xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F405xE/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f405xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f405xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f405xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f405xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F405xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F405xG/CMakeLists.txt
+index e60b7604..987445a3 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F405xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F405xG/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f405xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f405xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f405xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f405xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F407xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F407xE/CMakeLists.txt
+index 89bc7a53..58722530 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F407xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F407xE/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_ARCH_MAX INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f407xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f407xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f407xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f407xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F407xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F407xG/CMakeLists.txt
+index 9dc0861a..cdf90d26 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F407xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F407xG/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f407xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f407xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f407xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f407xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F410x8/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F410x8/CMakeLists.txt
+index ee94ee42..8c4cfb25 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F410x8/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F410x8/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f410rx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f410x8.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f410rx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f410x8.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F410xB/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F410xB/CMakeLists.txt
+index 8281a434..050b216a 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F410xB/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F410xB/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f410rx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f410xb.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f410rx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f410xb.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F411xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F411xC/CMakeLists.txt
+index 81fcc114..eb681e92 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F411xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F411xC/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f411xe.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f411xc.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f411xe.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f411xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F411xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F411xE/CMakeLists.txt
+index 40667713..0481d483 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F411xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F411xE/CMakeLists.txt
+@@ -5,10 +5,10 @@ add_subdirectory(TARGET_MTS_DRAGONFLY_F411RE EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_MTS_MDOT_F411RE EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_NUCLEO_F411RE EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f411xe.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f411xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f411xe.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f411xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F412xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F412xE/CMakeLists.txt
+index df63bb81..c6853f03 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F412xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F412xE/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f412zx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f412xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f412zx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f412xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F412xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F412xG/CMakeLists.txt
+index 13870385..fce9bda7 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F412xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F412xG/CMakeLists.txt
+@@ -4,10 +4,10 @@
+ add_subdirectory(TARGET_NUCLEO_F412ZG EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_WIO_EMW3166 EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f412zx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f412xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f412zx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f412xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F413xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F413xG/CMakeLists.txt
+index 591707c6..62f071e5 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F413xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F413xG/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f413xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f413xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f413xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f413xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F413xH/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F413xH/CMakeLists.txt
+index 533209df..f8ccfad0 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F413xH/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F413xH/CMakeLists.txt
+@@ -5,10 +5,10 @@ add_subdirectory(TARGET_DISCO_F413ZH EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_MTS_DRAGONFLY_F413RH EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_NUCLEO_F413ZH EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f413xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f413xh.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f413xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f413xh.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F415xx/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F415xx/CMakeLists.txt
+index 7ad6af67..fa1ddfd6 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F415xx/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F415xx/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f415xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f415xx.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f415xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f415xx.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F417xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F417xE/CMakeLists.txt
+index 09821157..49e8d981 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F417xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F417xE/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f417xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f417xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f417xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f417xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F417xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F417xG/CMakeLists.txt
+index be89f37f..7b15135c 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F417xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F417xG/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f417xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f417xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f417xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f417xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F423xx/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F423xx/CMakeLists.txt
+index cb768313..1229f532 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F423xx/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F423xx/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f423xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f423xx.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f423xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f423xx.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F427xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F427xG/CMakeLists.txt
+index 8f7cfa43..8d302974 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F427xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F427xG/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f427xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f427xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f427xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f427xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F427xI/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F427xI/CMakeLists.txt
+index 64dcef9d..882435fb 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F427xI/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F427xI/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f427xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f427xi.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f427xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f427xi.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F429xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F429xG/CMakeLists.txt
+index 11bf32fe..d14a512f 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F429xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F429xG/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f429xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f429xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f429xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f429xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F429xI/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F429xI/CMakeLists.txt
+index ed7d9da8..a847f3a2 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F429xI/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F429xI/CMakeLists.txt
+@@ -4,10 +4,10 @@
+ add_subdirectory(TARGET_DISCO_F429ZI EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_NUCLEO_F429ZI EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f429xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f429xi.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f429xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f429xi.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F437xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F437xG/CMakeLists.txt
+index bae3667e..369e9c28 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F437xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F437xG/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f437xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f437xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f437xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f437xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F437xI/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F437xI/CMakeLists.txt
+index 7eef6652..7e4776b9 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F437xI/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F437xI/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f437xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f437xi.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f437xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f437xi.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F439xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F439xG/CMakeLists.txt
+index bdbda97c..2cbda2db 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F439xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F439xG/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f439xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f439xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f439xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f439xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F439xI/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F439xI/CMakeLists.txt
+index c143f343..459b7cf8 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F439xI/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F439xI/CMakeLists.txt
+@@ -5,10 +5,10 @@ add_subdirectory(TARGET_NUCLEO_F439ZI EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_WIO_3G EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_WIO_BG96 EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f439xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f439xi.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f439xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f439xi.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F446xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F446xC/CMakeLists.txt
+index 4276453e..02997141 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F446xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F446xC/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f446xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f446xc.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f446xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f446xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F446xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F446xE/CMakeLists.txt
+index 0b71f157..df065f19 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F446xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F446xE/CMakeLists.txt
+@@ -4,10 +4,10 @@
+ add_subdirectory(TARGET_NUCLEO_F446RE EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_NUCLEO_F446ZE EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f446xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f446xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f446xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f446xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F469xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F469xE/CMakeLists.txt
+index af4e0cad..d266d400 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F469xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F469xE/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f469xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f469xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f469xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f469xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F469xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F469xG/CMakeLists.txt
+index 21d3b882..d8b761bc 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F469xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F469xG/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f469xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f469xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f469xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f469xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F469xI/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F469xI/CMakeLists.txt
+index 47a649a4..a334a815 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F469xI/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F469xI/CMakeLists.txt
+@@ -4,10 +4,10 @@
+ add_subdirectory(TARGET_DISCO_F469NI EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_SDP_K1 EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f469xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f469xi.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f469xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f469xi.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F479xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F479xG/CMakeLists.txt
+index f65dfce2..c98d7dcb 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F479xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F479xG/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f479xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f479xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f479xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f479xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F479xI/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F479xI/CMakeLists.txt
+index 6868dbc3..11c37a04 100644
+--- a/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F479xI/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F479xI/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f479xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32f479xi.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f479xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f479xi.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F7/TARGET_STM32F746xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F7/TARGET_STM32F746xG/CMakeLists.txt
+index 7bf57f86..1126f0fa 100644
+--- a/targets/TARGET_STM/TARGET_STM32F7/TARGET_STM32F746xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F7/TARGET_STM32F746xG/CMakeLists.txt
+@@ -4,10 +4,10 @@
+ add_subdirectory(TARGET_DISCO_F746NG EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_NUCLEO_F746ZG EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f746xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/STM32F746xG.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f746xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f746xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F7/TARGET_STM32F756xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F7/TARGET_STM32F756xG/CMakeLists.txt
+index d349ef22..72c50ec9 100644
+--- a/targets/TARGET_STM/TARGET_STM32F7/TARGET_STM32F756xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F7/TARGET_STM32F756xG/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_F756ZG EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f756xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/STM32F756xG.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f756xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f756xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F7/TARGET_STM32F767xI/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F7/TARGET_STM32F767xI/CMakeLists.txt
+index 8e90ebbf..d2348be3 100644
+--- a/targets/TARGET_STM/TARGET_STM32F7/TARGET_STM32F767xI/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F7/TARGET_STM32F767xI/CMakeLists.txt
+@@ -4,10 +4,10 @@
+ add_subdirectory(TARGET_NUCLEO_F767ZI EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_UHURU_RAVEN EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f767xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/STM32F767xI.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f767xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f767xi.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32F7/TARGET_STM32F769xI/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32F7/TARGET_STM32F769xI/CMakeLists.txt
+index e0e0a6ac..89946b65 100644
+--- a/targets/TARGET_STM/TARGET_STM32F7/TARGET_STM32F769xI/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32F7/TARGET_STM32F769xI/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_DISCO_F769NI EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32f769xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/STM32F769xI.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32f769xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32f769xi.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G030xx/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G030xx/CMakeLists.txt
+index c7b9c124..27a7acb7 100644
+--- a/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G030xx/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G030xx/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32g030xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32g030xx.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32g030xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32g030xx.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G031xx/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G031xx/CMakeLists.txt
+index ff40eddb..03749a85 100644
+--- a/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G031xx/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G031xx/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_G031K8 EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32g031xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32g031xx.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32g031xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32g031xx.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G041xx/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G041xx/CMakeLists.txt
+index 4af5cd12..28cbbf71 100644
+--- a/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G041xx/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G041xx/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32g041xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32g041xx.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32g041xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32g041xx.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G070xx/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G070xx/CMakeLists.txt
+index bc48ccc9..2638b2ef 100644
+--- a/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G070xx/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G070xx/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32g070xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32g070xx.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32g070xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32g070xx.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G071xx/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G071xx/CMakeLists.txt
+index 3020cbcf..85a3ab66 100644
+--- a/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G071xx/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G071xx/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_G071RB EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32g071xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32g071xx.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32g071xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32g071xx.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G081xx/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G081xx/CMakeLists.txt
+index fec2e00d..693551cf 100644
+--- a/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G081xx/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32G0/TARGET_STM32G081xx/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32g081xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32g081xx.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32g081xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32g081xx.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G431xB/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G431xB/CMakeLists.txt
+index 6f558ad3..8b84e46a 100644
+--- a/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G431xB/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G431xB/CMakeLists.txt
+@@ -4,10 +4,10 @@
+ add_subdirectory(TARGET_NUCLEO_G431KB EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_NUCLEO_G431RB EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32g431xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32g431xb.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32g431xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32g431xb.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G441xB/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G441xB/CMakeLists.txt
+index 7c08bbb2..9232f644 100644
+--- a/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G441xB/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G441xB/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32g441xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32g441xb.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32g441xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32g441xb.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G471xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G471xE/CMakeLists.txt
+index 2d290eb9..e8c2de6e 100644
+--- a/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G471xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G471xE/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32g471xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32g471xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32g471xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32g471xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G473xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G473xE/CMakeLists.txt
+index 8ed93bb2..db563c9b 100644
+--- a/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G473xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G473xE/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32g473xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32g473xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32g473xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32g473xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G474xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G474xE/CMakeLists.txt
+index 2f46352a..f226905d 100644
+--- a/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G474xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G474xE/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_G474RE EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32g474xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32g474xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32g474xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32g474xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G483xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G483xE/CMakeLists.txt
+index 81ec111c..a3c6147f 100644
+--- a/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G483xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G483xE/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32g483xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32g483xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32g483xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32g483xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G484xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G484xE/CMakeLists.txt
+index 04c529e1..e753fbfe 100644
+--- a/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G484xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32G4/TARGET_STM32G484xE/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32g484xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32g484xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32g484xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32g484xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H743xI/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H743xI/CMakeLists.txt
+index 1d97c5a7..451c32ec 100644
+--- a/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H743xI/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H743xI/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_H743ZI2 EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32h743xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/STM32H743xI.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32h743xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32h743xI.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H745xI/TARGET_STM32H745xI_CM4/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H745xI/TARGET_STM32H745xI_CM4/CMakeLists.txt
+index dc72eaec..c72c69e8 100644
+--- a/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H745xI/TARGET_STM32H745xI_CM4/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H745xI/TARGET_STM32H745xI_CM4/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32h745xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/STM32H745xI_CM4.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32h745xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32h745xI_CM4.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H745xI/TARGET_STM32H745xI_CM7/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H745xI/TARGET_STM32H745xI_CM7/CMakeLists.txt
+index 2fed652b..bd33daf6 100644
+--- a/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H745xI/TARGET_STM32H745xI_CM7/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H745xI/TARGET_STM32H745xI_CM7/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32h745xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/STM32H745xI_CM7.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32h745xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32h745xI_CM7.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H747xI/TARGET_STM32H747xI_CM4/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H747xI/TARGET_STM32H747xI_CM4/CMakeLists.txt
+index d864cbf0..ede6e95b 100644
+--- a/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H747xI/TARGET_STM32H747xI_CM4/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H747xI/TARGET_STM32H747xI_CM4/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32h747xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32h747xI_CM4.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32h747xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32h747xI_CM4.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H747xI/TARGET_STM32H747xI_CM7/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H747xI/TARGET_STM32H747xI_CM7/CMakeLists.txt
+index 942283c7..21aa486f 100644
+--- a/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H747xI/TARGET_STM32H747xI_CM7/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H747xI/TARGET_STM32H747xI_CM7/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32h747xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/STM32H747xI_CM7.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32h747xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32h747xI_CM7.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H7A3xIQ/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H7A3xIQ/CMakeLists.txt
+index f16a4d35..2bdff849 100644
+--- a/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H7A3xIQ/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32H7/TARGET_STM32H7A3xIQ/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_H7A3ZI_Q EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32h7a3xxq.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32h7a3xxq.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32h7a3xxq.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32h7a3xxq.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L053x8/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L053x8/CMakeLists.txt
+index 12b287ad..b8da62ba 100644
+--- a/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L053x8/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L053x8/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l053xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l053x8.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l053xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l053x8.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L071xZ/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L071xZ/CMakeLists.txt
+index ae8288fa..41c0dad8 100644
+--- a/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L071xZ/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L071xZ/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l071xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l071xz.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l071xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l071xz.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L072xZ/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L072xZ/CMakeLists.txt
+index 582dd971..1fc72cce 100644
+--- a/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L072xZ/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L072xZ/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_DISCO_L072CZ_LRWAN1 EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l072xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l072xz.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l072xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l072xz.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L073xZ/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L073xZ/CMakeLists.txt
+index c43b3c20..4692835a 100644
+--- a/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L073xZ/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L073xZ/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_L073RZ EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l073xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/STM32L073XZ.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l073xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l073xz.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L082xZ/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L082xZ/CMakeLists.txt
+index 36691b5f..f52754c7 100644
+--- a/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L082xZ/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L0/TARGET_STM32L082xZ/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l082xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l082xz.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l082xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l082xz.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L100xB/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L100xB/CMakeLists.txt
+index ab32fea7..e57be3e7 100644
+--- a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L100xB/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L100xB/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l100xb.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l100xb.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l100xb.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l100xb.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L100xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L100xC/CMakeLists.txt
+index 56c41baa..d4f2472d 100644
+--- a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L100xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L100xC/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l100xc.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l100xc.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l100xc.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l100xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L151xB/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L151xB/CMakeLists.txt
+index 9b81c498..f81ddc7b 100644
+--- a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L151xB/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L151xB/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l151xb.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l151xb.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l151xb.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l151xb.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L151xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L151xC/CMakeLists.txt
+index ddbedbf0..a77ac203 100644
+--- a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L151xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L151xC/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_XDOT_L151CC EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l151xc.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l151xc.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l151xc.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l151xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L151xD/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L151xD/CMakeLists.txt
+index e89c346b..eac69dc4 100644
+--- a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L151xD/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L151xD/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l151xd.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l151xd.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l151xd.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l151xd.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L151xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L151xE/CMakeLists.txt
+index db8ed4bb..8e3a010d 100644
+--- a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L151xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L151xE/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l151xe.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l151xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l151xe.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l151xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L152xB/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L152xB/CMakeLists.txt
+index 93c6b7c7..4d78eb46 100644
+--- a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L152xB/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L152xB/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l152xb.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l152xb.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l152xb.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l152xb.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L152xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L152xC/CMakeLists.txt
+index c1ff8caf..cce67fd1 100644
+--- a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L152xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L152xC/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_MOTE_L152RC EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l152xc.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l152xc.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l152xc.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l152xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L152xD/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L152xD/CMakeLists.txt
+index 6a230de1..b3a37a7c 100644
+--- a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L152xD/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L152xD/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l152xd.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l152xd.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l152xd.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l152xd.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L152xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L152xE/CMakeLists.txt
+index c6ab0447..0a4ee27b 100644
+--- a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L152xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L152xE/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_L152RE EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l152xe.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l152xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l152xe.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l152xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L162xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L162xC/CMakeLists.txt
+index 985fa3f2..e5eed18c 100644
+--- a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L162xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L162xC/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l162xc.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l162xc.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l162xc.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l162xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L162xD/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L162xD/CMakeLists.txt
+index 2ab8c2df..e55c7145 100644
+--- a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L162xD/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L162xD/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l162xd.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l162xd.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l162xd.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l162xd.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L162xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L162xE/CMakeLists.txt
+index 79d903b9..0732d6ce 100644
+--- a/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L162xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L1/TARGET_STM32L162xE/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l162xe.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l162xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l162xe.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l162xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L432xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L432xC/CMakeLists.txt
+index b9914a88..3cd1608b 100644
+--- a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L432xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L432xC/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_L432KC EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l432xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l432xc.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l432xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l432xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L433xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L433xC/CMakeLists.txt
+index 9f67794a..a7b2f098 100644
+--- a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L433xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L433xC/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_L433RC_P EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l433xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l433xc.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l433xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l433xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L443xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L443xC/CMakeLists.txt
+index 431c8fb5..dc811dbc 100644
+--- a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L443xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L443xC/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_ADV_WISE_1510 EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l443xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l443xc.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l443xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l443xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L452xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L452xE/CMakeLists.txt
+index 611b6302..29358d94 100644
+--- a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L452xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L452xE/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_L452RE_P EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l452xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l452xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l452xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l452xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L471xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L471xG/CMakeLists.txt
+index afd6a71f..3b45d407 100644
+--- a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L471xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L471xG/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_MTS_DRAGONFLY_L471QG EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l471xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l471xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l471xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l471xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L475xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L475xG/CMakeLists.txt
+index e9f865dd..970222b2 100644
+--- a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L475xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L475xG/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_DISCO_L475VG_IOT01A EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l475xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l475xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l475xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l475xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L476xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L476xG/CMakeLists.txt
+index fee48d76..c5b1c0a2 100644
+--- a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L476xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L476xG/CMakeLists.txt
+@@ -5,10 +5,10 @@ add_subdirectory(TARGET_DISCO_L476VG EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_NUCLEO_L476RG EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_RHOMBIO_L476DMW1K EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l476xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l476xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l476xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l476xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L486xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L486xG/CMakeLists.txt
+index 942f3c44..4a150777 100644
+--- a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L486xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L486xG/CMakeLists.txt
+@@ -4,10 +4,10 @@
+ add_subdirectory(TARGET_ADV_WISE_1570 EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_NUCLEO_L486RG EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l486xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l486xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l486xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l486xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L496xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L496xG/CMakeLists.txt
+index 2e1e4b7d..07bd751f 100644
+--- a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L496xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L496xG/CMakeLists.txt
+@@ -4,10 +4,10 @@
+ add_subdirectory(TARGET_DISCO_L496AG EXCLUDE_FROM_ALL)
+ add_subdirectory(TARGET_NUCLEO_L496ZG EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l496xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l496xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l496xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l496xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L4R5xI/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L4R5xI/CMakeLists.txt
+index aa889a02..911ceb3c 100644
+--- a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L4R5xI/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L4R5xI/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_L4R5ZI EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l4r5xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l4r5xi.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l4r5xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l4r5xi.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L4R9xI/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L4R9xI/CMakeLists.txt
+index d47de667..b87564b4 100644
+--- a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L4R9xI/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L4R9xI/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_DISCO_L4R9I EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l4r9xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l4r9xi.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l4r9xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l4r9xi.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L4S5xI/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L4S5xI/CMakeLists.txt
+index 774951fe..3ebcac01 100644
+--- a/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L4S5xI/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L4/TARGET_STM32L4S5xI/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_B_L4S5I_IOT01A EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l4s5xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l4s5xi.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l4s5xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l4s5xi.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L5/TARGET_STM32L552xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L5/TARGET_STM32L552xC/CMakeLists.txt
+index cc588a65..86dc9c92 100644
+--- a/targets/TARGET_STM/TARGET_STM32L5/TARGET_STM32L552xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L5/TARGET_STM32L552xC/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l552xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l552xc.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l552xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l552xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L5/TARGET_STM32L552xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L5/TARGET_STM32L552xE/CMakeLists.txt
+index 6da4cdce..84e161aa 100644
+--- a/targets/TARGET_STM/TARGET_STM32L5/TARGET_STM32L552xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L5/TARGET_STM32L552xE/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_L552ZE_Q EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l552xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l552xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l552xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l552xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32L5/TARGET_STM32L562xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32L5/TARGET_STM32L562xE/CMakeLists.txt
+index 8a7d6a40..63dd851f 100644
+--- a/targets/TARGET_STM/TARGET_STM32L5/TARGET_STM32L562xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32L5/TARGET_STM32L562xE/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_DISCO_L562QE EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32l562xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32l562xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32l562xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32l562xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB10xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB10xC/CMakeLists.txt
+index 8cf48f0e..b674665b 100644
+--- a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB10xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB10xC/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32wb10xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32wb10xc.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32wb10xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32wb10xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB15xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB15xC/CMakeLists.txt
+index 5d6c75d2..f36ad9a2 100644
+--- a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB15xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB15xC/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_WB15CC EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32wb15xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32wb15xc.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32wb15xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32wb15xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB30xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB30xE/CMakeLists.txt
+index fd9b210e..b89d5b68 100644
+--- a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB30xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB30xE/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32wb30xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32wb30xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32wb30xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32wb30xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB35xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB35xC/CMakeLists.txt
+index 2835f63e..e8927749 100644
+--- a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB35xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB35xC/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32wb35xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32wb35xc.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32wb35xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32wb35xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB35xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB35xE/CMakeLists.txt
+index 12ee5e31..fe777a69 100644
+--- a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB35xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB35xE/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32wb35xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32wb35xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32wb35xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32wb35xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB50xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB50xG/CMakeLists.txt
+index 7fe371ef..efaad351 100644
+--- a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB50xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB50xG/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32wb50xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32wb50xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32wb50xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32wb50xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xC/CMakeLists.txt
+index 3dba2c14..474b3f42 100644
+--- a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xC/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32wb55xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32wb55xc.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32wb55xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32wb55xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xE/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xE/CMakeLists.txt
+index 4c523cae..810ab58d 100644
+--- a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xE/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xE/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32wb55xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32wb55xe.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32wb55xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32wb55xe.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xG/CMakeLists.txt
+index e4746a25..942e04ad 100644
+--- a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xG/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_WB55RG EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32wb55xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32wb55xg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32wb55xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32wb55xg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xY/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xY/CMakeLists.txt
+index 3290b96a..df807d52 100644
+--- a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xY/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xY/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32wb55xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32wb55xy.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32wb55xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32wb55xy.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB5MxG/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB5MxG/CMakeLists.txt
+index 3b15f7f1..bca1e5af 100644
+--- a/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB5MxG/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB5MxG/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_DISCO_WB5MMG EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32wb5mxx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32wb5mxg.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32wb5mxx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32wb5mxg.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32WL/TARGET_STM32WL55xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32WL/TARGET_STM32WL55xC/CMakeLists.txt
+index c2316f41..e383e02f 100644
+--- a/targets/TARGET_STM/TARGET_STM32WL/TARGET_STM32WL55xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32WL/TARGET_STM32WL55xC/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_subdirectory(TARGET_NUCLEO_WL55JC EXCLUDE_FROM_ALL)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32wl55xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32wl55xc.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32wl55xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32wl55xc.sct)
+ endif()
+diff --git a/targets/TARGET_STM/TARGET_STM32WL/TARGET_STM32WLE5xC/CMakeLists.txt b/targets/TARGET_STM/TARGET_STM32WL/TARGET_STM32WLE5xC/CMakeLists.txt
+index e080aafd..e00e4103 100644
+--- a/targets/TARGET_STM/TARGET_STM32WL/TARGET_STM32WLE5xC/CMakeLists.txt
++++ b/targets/TARGET_STM/TARGET_STM32WL/TARGET_STM32WLE5xC/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(STARTUP_FILE TOOLCHAIN_GCC_ARM/startup_stm32wle5xx.S)
+     set(LINKER_FILE TOOLCHAIN_GCC_ARM/stm32wle5xc.ld)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(STARTUP_FILE TOOLCHAIN_ARM/startup_stm32wle5xx.S)
+     set(LINKER_FILE TOOLCHAIN_ARM/stm32wle5xc.sct)
+ endif()
+diff --git a/targets/TARGET_Samsung/TARGET_SIDK_S1SBP6A/CMakeLists.txt b/targets/TARGET_Samsung/TARGET_SIDK_S1SBP6A/CMakeLists.txt
+index bb247d8c..ba1f7525 100644
+--- a/targets/TARGET_Samsung/TARGET_SIDK_S1SBP6A/CMakeLists.txt
++++ b/targets/TARGET_Samsung/TARGET_SIDK_S1SBP6A/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020-2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/s1sbp6a.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_s1sbp6a.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/s1sbp6a.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_s1sbp6a.S)
+ endif()
+diff --git a/targets/TARGET_Samsung/TARGET_SIDK_S5JS100/CMakeLists.txt b/targets/TARGET_Samsung/TARGET_SIDK_S5JS100/CMakeLists.txt
+index 00ff2385..667a6be9 100644
+--- a/targets/TARGET_Samsung/TARGET_SIDK_S5JS100/CMakeLists.txt
++++ b/targets/TARGET_Samsung/TARGET_SIDK_S5JS100/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020-2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/sidk_s5js100.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_sidk_s5js100.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/sidk_s5js100.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_sidk_s5js100.S)
+ endif()
+diff --git a/targets/TARGET_Silicon_Labs/TARGET_EFM32/TARGET_EFM32GG/CMakeLists.txt b/targets/TARGET_Silicon_Labs/TARGET_EFM32/TARGET_EFM32GG/CMakeLists.txt
+index 09373e28..24f49638 100644
+--- a/targets/TARGET_Silicon_Labs/TARGET_EFM32/TARGET_EFM32GG/CMakeLists.txt
++++ b/targets/TARGET_Silicon_Labs/TARGET_EFM32/TARGET_EFM32GG/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_library(mbed-1024k INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TARGET_1024K/TOOLCHAIN_ARM_STD/efm32gg.sct)
+     set(STARTUP_FILE device/TARGET_1024K/TOOLCHAIN_ARM_STD/startup_efm32gg.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TARGET_1024K/TOOLCHAIN_GCC_ARM/efm32gg.ld)
+     set(STARTUP_FILE device/TARGET_1024K/TOOLCHAIN_GCC_ARM/startup_efm32gg.S)
+ endif()
+diff --git a/targets/TARGET_Silicon_Labs/TARGET_EFM32/TARGET_EFM32GG11/CMakeLists.txt b/targets/TARGET_Silicon_Labs/TARGET_EFM32/TARGET_EFM32GG11/CMakeLists.txt
+index 2ae2d9f7..8144a178 100644
+--- a/targets/TARGET_Silicon_Labs/TARGET_EFM32/TARGET_EFM32GG11/CMakeLists.txt
++++ b/targets/TARGET_Silicon_Labs/TARGET_EFM32/TARGET_EFM32GG11/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_library(mbed-efm32gg11 INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/efm32gg11.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_efm32gg11.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/efm32gg11.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_efm32gg11.S)
+ endif()
+diff --git a/targets/TARGET_Silicon_Labs/TARGET_EFM32/TARGET_EFR32MG12/CMakeLists.txt b/targets/TARGET_Silicon_Labs/TARGET_EFM32/TARGET_EFR32MG12/CMakeLists.txt
+index 8f8f3d1d..bf5915bf 100644
+--- a/targets/TARGET_Silicon_Labs/TARGET_EFM32/TARGET_EFR32MG12/CMakeLists.txt
++++ b/targets/TARGET_Silicon_Labs/TARGET_EFM32/TARGET_EFR32MG12/CMakeLists.txt
+@@ -3,10 +3,10 @@
+ 
+ add_library(mbed-efm32mg12 INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/efr32mg12p.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_efr32mg12p.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/efr32mg12p.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_efr32mg12p.S)
+ endif()
+diff --git a/targets/TARGET_Silicon_Labs/TARGET_SL_RAIL/CMakeLists.txt b/targets/TARGET_Silicon_Labs/TARGET_SL_RAIL/CMakeLists.txt
+index 08ccd591..e04545ed 100644
+--- a/targets/TARGET_Silicon_Labs/TARGET_SL_RAIL/CMakeLists.txt
++++ b/targets/TARGET_Silicon_Labs/TARGET_SL_RAIL/CMakeLists.txt
+@@ -3,9 +3,9 @@
+ 
+ add_library(mbed-sl-rail-efr32-12 INTERFACE)
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LIB_RAIL efr32-rf-driver/rail/TARGET_EFR32_12/librail_efr32xg12_release.ar)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LIB_RAIL efr32-rf-driver/rail/TARGET_EFR32_12/librail_efr32xg12_release.a)
+ endif()
+ 
+diff --git a/targets/TARGET_TOSHIBA/TARGET_TMPM46B/CMakeLists.txt b/targets/TARGET_TOSHIBA/TARGET_TMPM46B/CMakeLists.txt
+index 09b904c1..905eea47 100644
+--- a/targets/TARGET_TOSHIBA/TARGET_TMPM46B/CMakeLists.txt
++++ b/targets/TARGET_TOSHIBA/TARGET_TMPM46B/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020-2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/tmpm46bf10fg.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_TMPM46B.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/tmpm46bf10fg.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_TMPM46b.S)
+ endif()
+diff --git a/targets/TARGET_TOSHIBA/TARGET_TMPM4G9/CMakeLists.txt b/targets/TARGET_TOSHIBA/TARGET_TMPM4G9/CMakeLists.txt
+index e4437aa6..04f664c5 100644
+--- a/targets/TARGET_TOSHIBA/TARGET_TMPM4G9/CMakeLists.txt
++++ b/targets/TARGET_TOSHIBA/TARGET_TMPM4G9/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ # Copyright (c) 2020-2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     set(LINKER_FILE device/TOOLCHAIN_ARM_STD/tmpm4g9f15.sct)
+     set(STARTUP_FILE device/TOOLCHAIN_ARM_STD/startup_TMPM4G9.S)
+-elseif(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     set(LINKER_FILE device/TOOLCHAIN_GCC_ARM/tmpm4g9f15fg.ld)
+     set(STARTUP_FILE device/TOOLCHAIN_GCC_ARM/startup_TMPM4G9.S)
+ endif()
+diff --git a/tools/cmake/cores/Cortex-A.cmake b/tools/cmake/cores/Cortex-A.cmake
+index e9114875..35463bb7 100644
+--- a/tools/cmake/cores/Cortex-A.cmake
++++ b/tools/cmake/cores/Cortex-A.cmake
+@@ -1,7 +1,7 @@
+ # Copyright (c) 2020-2021 ARM Limited. All rights reserved.
+ # SPDX-License-Identifier: Apache-2.0
+ 
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb-interwork"
+         "-marm"
+@@ -10,7 +10,7 @@ if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
+         "-mno-unaligned-access"
+         "-mcpu=${CMAKE_SYSTEM_PROCESSOR}"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mfpu=vfpv3"
+         "-mfloat-abi=hard"
+diff --git a/tools/cmake/cores/Cortex-M0+.cmake b/tools/cmake/cores/Cortex-M0+.cmake
+index c853e714..e515cb1b 100644
+--- a/tools/cmake/cores/Cortex-M0+.cmake
++++ b/tools/cmake/cores/Cortex-M0+.cmake
+@@ -2,12 +2,12 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mcpu=cortex-m0plus"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mcpu=cortex-m0plus"
+     )
+diff --git a/tools/cmake/cores/Cortex-M0.cmake b/tools/cmake/cores/Cortex-M0.cmake
+index 864d9bea..84eead81 100644
+--- a/tools/cmake/cores/Cortex-M0.cmake
++++ b/tools/cmake/cores/Cortex-M0.cmake
+@@ -2,12 +2,12 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mcpu=cortex-m0"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mcpu=cortex-m0"
+     )
+diff --git a/tools/cmake/cores/Cortex-M1.cmake b/tools/cmake/cores/Cortex-M1.cmake
+index a6ad18d5..ce3f3a40 100644
+--- a/tools/cmake/cores/Cortex-M1.cmake
++++ b/tools/cmake/cores/Cortex-M1.cmake
+@@ -2,12 +2,12 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mcpu=cortex-m1"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mcpu=cortex-m1"
+     )
+diff --git a/tools/cmake/cores/Cortex-M23-NS.cmake b/tools/cmake/cores/Cortex-M23-NS.cmake
+index fbec9c18..107b7c41 100644
+--- a/tools/cmake/cores/Cortex-M23-NS.cmake
++++ b/tools/cmake/cores/Cortex-M23-NS.cmake
+@@ -2,12 +2,12 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mcpu=cortex-m23"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mcpu=cortex-m23"
+     )
+diff --git a/tools/cmake/cores/Cortex-M23.cmake b/tools/cmake/cores/Cortex-M23.cmake
+index e50efcb9..11afcfb3 100644
+--- a/tools/cmake/cores/Cortex-M23.cmake
++++ b/tools/cmake/cores/Cortex-M23.cmake
+@@ -2,12 +2,12 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mcpu=cortex-m23"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mcpu=cortex-m23"
+     )
+diff --git a/tools/cmake/cores/Cortex-M3.cmake b/tools/cmake/cores/Cortex-M3.cmake
+index c90a29e2..ec4967f4 100644
+--- a/tools/cmake/cores/Cortex-M3.cmake
++++ b/tools/cmake/cores/Cortex-M3.cmake
+@@ -2,12 +2,12 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mcpu=cortex-m3"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mcpu=cortex-m3"
+     )
+diff --git a/tools/cmake/cores/Cortex-M33-NS.cmake b/tools/cmake/cores/Cortex-M33-NS.cmake
+index 8ba132bd..af413bc1 100644
+--- a/tools/cmake/cores/Cortex-M33-NS.cmake
++++ b/tools/cmake/cores/Cortex-M33-NS.cmake
+@@ -2,12 +2,12 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mcpu=cortex-m33+nodsp+nofp"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mcpu=cortex-m33+nodsp"
+         "-mfpu=none"
+diff --git a/tools/cmake/cores/Cortex-M33.cmake b/tools/cmake/cores/Cortex-M33.cmake
+index ce9db87d..622e1708 100644
+--- a/tools/cmake/cores/Cortex-M33.cmake
++++ b/tools/cmake/cores/Cortex-M33.cmake
+@@ -2,12 +2,12 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mcpu=cortex-m33+nodsp+nofp"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mcpu=cortex-m33+nodsp"
+         "-mfpu=none"
+diff --git a/tools/cmake/cores/Cortex-M33F-NS.cmake b/tools/cmake/cores/Cortex-M33F-NS.cmake
+index b77ec947..19e57786 100644
+--- a/tools/cmake/cores/Cortex-M33F-NS.cmake
++++ b/tools/cmake/cores/Cortex-M33F-NS.cmake
+@@ -2,14 +2,14 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mfpu=fpv5-sp-d16"
+         "-mfloat-abi=softfp"
+         "-mcpu=cortex-m33+nodsp"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mfpu=fpv5-sp-d16"
+         "-mfloat-abi=hard"
+diff --git a/tools/cmake/cores/Cortex-M33F.cmake b/tools/cmake/cores/Cortex-M33F.cmake
+index 3f68c16a..d31b7889 100644
+--- a/tools/cmake/cores/Cortex-M33F.cmake
++++ b/tools/cmake/cores/Cortex-M33F.cmake
+@@ -2,14 +2,14 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mfpu=fpv5-sp-d16"
+         "-mfloat-abi=softfp"
+         "-mcpu=cortex-m33+nodsp"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mfpu=fpv5-sp-d16"
+         "-mfloat-abi=hard"
+diff --git a/tools/cmake/cores/Cortex-M33FE-NS.cmake b/tools/cmake/cores/Cortex-M33FE-NS.cmake
+index 1fc679ee..0d93ed75 100644
+--- a/tools/cmake/cores/Cortex-M33FE-NS.cmake
++++ b/tools/cmake/cores/Cortex-M33FE-NS.cmake
+@@ -2,14 +2,14 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mfpu=fpv5-sp-d16"
+         "-mfloat-abi=softfp"
+         "-mcpu=cortex-m33"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mfpu=fpv5-sp-d16"
+         "-mfloat-abi=hard"
+diff --git a/tools/cmake/cores/Cortex-M33FE.cmake b/tools/cmake/cores/Cortex-M33FE.cmake
+index a4b8a931..618bd978 100644
+--- a/tools/cmake/cores/Cortex-M33FE.cmake
++++ b/tools/cmake/cores/Cortex-M33FE.cmake
+@@ -2,14 +2,14 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mfpu=fpv5-sp-d16"
+         "-mfloat-abi=softfp"
+         "-mcpu=cortex-m33"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mfpu=fpv5-sp-d16"
+         "-mfloat-abi=hard"
+diff --git a/tools/cmake/cores/Cortex-M4.cmake b/tools/cmake/cores/Cortex-M4.cmake
+index 533da387..825c9116 100644
+--- a/tools/cmake/cores/Cortex-M4.cmake
++++ b/tools/cmake/cores/Cortex-M4.cmake
+@@ -2,12 +2,12 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mcpu=cortex-m4"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mcpu=cortex-m4"
+         "-mfpu=none"
+diff --git a/tools/cmake/cores/Cortex-M4F.cmake b/tools/cmake/cores/Cortex-M4F.cmake
+index 66fb4b81..6fc05573 100644
+--- a/tools/cmake/cores/Cortex-M4F.cmake
++++ b/tools/cmake/cores/Cortex-M4F.cmake
+@@ -2,14 +2,14 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mcpu=cortex-m4"
+         "-mfpu=fpv4-sp-d16"
+         "-mfloat-abi=softfp"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mcpu=cortex-m4"
+         "-mfpu=fpv4-sp-d16"
+diff --git a/tools/cmake/cores/Cortex-M55.cmake b/tools/cmake/cores/Cortex-M55.cmake
+index 855106e4..7365ff93 100644
+--- a/tools/cmake/cores/Cortex-M55.cmake
++++ b/tools/cmake/cores/Cortex-M55.cmake
+@@ -2,14 +2,14 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mfpu=fpv5-sp-d16"
+         "-mfloat-abi=softfp"
+         "-mcpu=cortex-m55"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mfpu=fpv5-sp-d16"
+         "-mfloat-abi=hard"
+diff --git a/tools/cmake/cores/Cortex-M7.cmake b/tools/cmake/cores/Cortex-M7.cmake
+index 647e9c29..3262fabf 100644
+--- a/tools/cmake/cores/Cortex-M7.cmake
++++ b/tools/cmake/cores/Cortex-M7.cmake
+@@ -2,12 +2,12 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mcpu=cortex-m7"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mcpu=cortex-m7"
+         "-mfpu=none"
+diff --git a/tools/cmake/cores/Cortex-M7F.cmake b/tools/cmake/cores/Cortex-M7F.cmake
+index e8a47b39..38cf96a7 100644
+--- a/tools/cmake/cores/Cortex-M7F.cmake
++++ b/tools/cmake/cores/Cortex-M7F.cmake
+@@ -2,14 +2,14 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mfpu=fpv5-sp-d16"
+         "-mfloat-abi=softfp"
+         "-mcpu=cortex-m7"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mfpu=fpv5-sp-d16"
+         "-mfloat-abi=hard"
+diff --git a/tools/cmake/cores/Cortex-M7FD.cmake b/tools/cmake/cores/Cortex-M7FD.cmake
+index db2f6d68..6296dbb1 100644
+--- a/tools/cmake/cores/Cortex-M7FD.cmake
++++ b/tools/cmake/cores/Cortex-M7FD.cmake
+@@ -2,14 +2,14 @@
+ # SPDX-License-Identifier: Apache-2.0
+ 
+ # Sets cpu core options
+-if(${MBED_TOOLCHAIN} STREQUAL "GCC_ARM")
++if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+     list(APPEND common_options
+         "-mthumb"
+         "-mfpu=fpv5-d16"
+         "-mfloat-abi=softfp"
+         "-mcpu=cortex-m7"
+     )
+-elseif(${MBED_TOOLCHAIN} STREQUAL "ARM")
++elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+     list(APPEND common_options
+         "-mfpu=fpv5-d16"
+         "-mfloat-abi=hard"
+diff --git a/tools/cmake/profiles/debug.cmake b/tools/cmake/profiles/debug.cmake
+index 62f391dd..96b93981 100644
+--- a/tools/cmake/profiles/debug.cmake
++++ b/tools/cmake/profiles/debug.cmake
+@@ -5,7 +5,7 @@
+ function(mbed_set_profile_options target mbed_toolchain)
+     set(profile_link_options "")
+ 
+-    if(${mbed_toolchain} STREQUAL "GCC_ARM")
++    if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+         list(APPEND profile_c_compile_options
+             "-c"
+             "-Og"
+@@ -17,7 +17,7 @@ function(mbed_set_profile_options target mbed_toolchain)
+ 
+         list(APPEND profile_cxx_compile_options
+             "-c"
+-            "-fno-rtti"
++            "-frtti"
+             "-Wvla"
+             "-Og"
+         )
+@@ -47,7 +47,7 @@ function(mbed_set_profile_options target mbed_toolchain)
+             "-Wl,--wrap,atexit"
+             "-Wl,-n"
+         )
+-    elseif(${mbed_toolchain} STREQUAL "ARM")
++    elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+         list(APPEND profile_c_compile_options
+             "-O1"
+         )
+@@ -57,7 +57,7 @@ function(mbed_set_profile_options target mbed_toolchain)
+         )
+ 
+         list(APPEND profile_cxx_compile_options
+-            "-fno-rtti"
++            "-frtti"
+             "-fno-c++-static-destructors"
+             "-O1"
+         )
+diff --git a/tools/cmake/profiles/develop.cmake b/tools/cmake/profiles/develop.cmake
+index 331fa185..09c5a3c7 100644
+--- a/tools/cmake/profiles/develop.cmake
++++ b/tools/cmake/profiles/develop.cmake
+@@ -5,7 +5,7 @@
+ function(mbed_set_profile_options target mbed_toolchain)
+     set(profile_link_options "")
+ 
+-    if(${mbed_toolchain} STREQUAL "GCC_ARM")
++    if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+         list(APPEND profile_c_compile_options
+             "-c"
+             "-Os"
+@@ -16,7 +16,7 @@ function(mbed_set_profile_options target mbed_toolchain)
+         )
+ 
+         list(APPEND profile_cxx_compile_options
+-            "-fno-rtti"
++            "-frtti"
+             "-Wvla"
+             "-Os"
+         )
+@@ -45,7 +45,7 @@ function(mbed_set_profile_options target mbed_toolchain)
+             "-Wl,--wrap,atexit"
+             "-Wl,-n"
+         )
+-    elseif(${mbed_toolchain} STREQUAL "ARM")
++    elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+         list(APPEND profile_c_compile_options
+             "-Os"
+         )
+@@ -55,7 +55,7 @@ function(mbed_set_profile_options target mbed_toolchain)
+         )
+ 
+         list(APPEND profile_cxx_compile_options
+-            "-fno-rtti"
++            "-frtti"
+             "-fno-c++-static-destructors"
+             "-Os"
+         )
+diff --git a/tools/cmake/profiles/release.cmake b/tools/cmake/profiles/release.cmake
+index 877dd186..af007d45 100644
+--- a/tools/cmake/profiles/release.cmake
++++ b/tools/cmake/profiles/release.cmake
+@@ -5,7 +5,7 @@
+ function(mbed_set_profile_options target mbed_toolchain)
+     set(profile_link_options "")
+ 
+-    if(${mbed_toolchain} STREQUAL "GCC_ARM")
++    if("${MBED_TOOLCHAIN}" STREQUAL "GCC_ARM")
+         list(APPEND profile_c_compile_options
+             "-c"
+             "-Os"
+@@ -17,7 +17,7 @@ function(mbed_set_profile_options target mbed_toolchain)
+ 
+         list(APPEND profile_cxx_compile_options
+             "-c"
+-            "-fno-rtti"
++            "-frtti"
+             "-Wvla"
+             "-Os"
+         )
+@@ -47,7 +47,7 @@ function(mbed_set_profile_options target mbed_toolchain)
+             "-Wl,--wrap,atexit"
+             "-Wl,-n"
+         )
+-    elseif(${mbed_toolchain} STREQUAL "ARM")
++    elseif("${MBED_TOOLCHAIN}" STREQUAL "ARM")
+         list(APPEND profile_c_compile_options
+             "-Oz"
+         )
+@@ -57,7 +57,7 @@ function(mbed_set_profile_options target mbed_toolchain)
+         )
+ 
+         list(APPEND profile_cxx_compile_options
+-            "-fno-rtti"
++            "-frtti"
+             "-fno-c++-static-destructors"
+             "-Oz"
+         )
